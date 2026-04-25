@@ -1,8 +1,16 @@
 #!/bin/bash
 # ═══════════════════════════════════════════════════════════════
-# AXE Fleet Notification Daemon v1.0
+# AXE Fleet Notification Daemon v2.0
 # Sovereign NTFY — Native macOS notifications for all AXE services
-# No external dependencies. No API spend. Pure local iron.
+# 
+# v2.0 Features:
+#   - Flap detection (suppresses notification storms)
+#   - axe.observer data tower reporting
+#   - Structured event log for AI/ML training
+#   - Trend tracking and anomaly detection
+#   - Response time monitoring for HTTP services
+#
+# Zero external dependencies. Zero API spend. Pure local iron.
 # ═══════════════════════════════════════════════════════════════
 
 set -euo pipefail
@@ -12,9 +20,19 @@ APP_DIR="$(dirname "$SCRIPT_DIR")"
 CONFIG_FILE="${APP_DIR}/config/fleet-config.json"
 STATE_DIR="${APP_DIR}/logs/state"
 LOG_FILE="${APP_DIR}/logs/axe-fleet-notify.log"
+EVENTS_LOG="${APP_DIR}/logs/events.jsonl"
 COOLDOWN_DIR="${APP_DIR}/logs/cooldown"
+FLAP_DIR="${APP_DIR}/logs/flap"
+METRICS_DIR="${APP_DIR}/logs/metrics"
 
-mkdir -p "$STATE_DIR" "$COOLDOWN_DIR" "$(dirname "$LOG_FILE")"
+mkdir -p "$STATE_DIR" "$COOLDOWN_DIR" "$FLAP_DIR" "$METRICS_DIR" "$(dirname "$LOG_FILE")"
+
+# ─── Constants ────────────────────────────────────────────────
+FLAP_WINDOW=300        # 5 minutes
+FLAP_THRESHOLD=3       # 3 transitions = flapping
+OBSERVER_URL="https://axe.observer/api/messages"
+OBSERVER_API_KEY="_J1ra0x7W-ray8Cat_NXyFIcHUgsSRK5PnN3g0b9WUU"
+VERSION="2.0.0"
 
 # ─── Logging ──────────────────────────────────────────────────
 log() {
@@ -22,12 +40,34 @@ log() {
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] [$level] $*" >> "$LOG_FILE"
 }
 
-log "INFO" "═══ AXE Fleet Notify starting ═══"
-log "INFO" "Config: $CONFIG_FILE"
-log "INFO" "State: $STATE_DIR"
+# ─── Structured Event Log (for AI/ML training) ───────────────
+log_event() {
+    local target="$1"
+    local event_type="$2"
+    local old_state="$3"
+    local new_state="$4"
+    local latency_ms="${5:-0}"
+    local metadata="${6:-{}}"
 
-# ─── Config parsing (jq-free for zero deps) ──────────────────
-# We use python3 -c for JSON parsing since it's on every Mac
+    python3 -c "
+import json, datetime
+event = {
+    'timestamp': datetime.datetime.utcnow().isoformat() + 'Z',
+    'target': '$target',
+    'event': '$event_type',
+    'old_state': '$old_state',
+    'new_state': '$new_state',
+    'latency_ms': $latency_ms,
+    'metadata': $metadata,
+    'version': '$VERSION'
+}
+print(json.dumps(event))
+" >> "$EVENTS_LOG" 2>/dev/null
+}
+
+log "INFO" "═══ AXE Fleet Notify v${VERSION} starting ═══"
+
+# ─── Config parsing ───────────────────────────────────────────
 parse_json() {
     python3 -c "
 import json, sys
@@ -40,7 +80,67 @@ $1
 POLL_INTERVAL=$(parse_json "print(cfg.get('poll_interval_seconds', 30))")
 COOLDOWN_SECONDS=$(parse_json "print(cfg.get('notification_cooldown_seconds', 300))")
 
-log "INFO" "Poll interval: ${POLL_INTERVAL}s | Cooldown: ${COOLDOWN_SECONDS}s"
+log "INFO" "Poll: ${POLL_INTERVAL}s | Cooldown: ${COOLDOWN_SECONDS}s | Flap threshold: ${FLAP_THRESHOLD}/${FLAP_WINDOW}s"
+
+# ─── axe.observer Reporting ──────────────────────────────────
+report_to_observer() {
+    local message="$1"
+    local msg_type="${2:-fleet-notify}"
+
+    # Fire and forget — don't block monitoring
+    (curl -s -X POST "$OBSERVER_URL" \
+        -H "Content-Type: application/json" \
+        -H "X-API-Key: $OBSERVER_API_KEY" \
+        -d "{\"from\":\"forge-fleet\",\"to\":\"team\",\"msg\":\"$message\",\"type\":\"$msg_type\"}" \
+        --connect-timeout 5 --max-time 10 \
+        &>/dev/null || true) &
+}
+
+# ─── Flap Detection ──────────────────────────────────────────
+record_flap() {
+    local key="$1"
+    local flap_file="${FLAP_DIR}/${key}"
+    local now=$(date +%s)
+
+    # Append current timestamp
+    echo "$now" >> "$flap_file"
+
+    # Prune entries older than FLAP_WINDOW
+    if [[ -f "$flap_file" ]]; then
+        local cutoff=$((now - FLAP_WINDOW))
+        local tmp=$(mktemp)
+        awk -v cutoff="$cutoff" '$1 >= cutoff' "$flap_file" > "$tmp" && mv "$tmp" "$flap_file"
+    fi
+}
+
+is_flapping() {
+    local key="$1"
+    local flap_file="${FLAP_DIR}/${key}"
+
+    if [[ ! -f "$flap_file" ]]; then
+        echo "false"
+        return
+    fi
+
+    local count
+    count=$(wc -l < "$flap_file" | tr -d ' ')
+
+    if [[ "$count" -ge "$FLAP_THRESHOLD" ]]; then
+        echo "true"
+    else
+        echo "false"
+    fi
+}
+
+get_flap_count() {
+    local key="$1"
+    local flap_file="${FLAP_DIR}/${key}"
+    if [[ -f "$flap_file" ]]; then
+        wc -l < "$flap_file" | tr -d ' '
+    else
+        echo "0"
+    fi
+}
 
 # ─── Notification Engine ──────────────────────────────────────
 notify() {
@@ -48,8 +148,9 @@ notify() {
     local message="$2"
     local sound="${3:-Glass}"
     local key="$4"
+    local report="${5:-true}"
 
-    # Cooldown check — don't spam the same alert
+    # Cooldown check
     local cooldown_file="${COOLDOWN_DIR}/${key}"
     if [[ -f "$cooldown_file" ]]; then
         local last_fire=$(cat "$cooldown_file")
@@ -65,6 +166,12 @@ notify() {
 
     # Record cooldown
     date +%s > "$cooldown_file"
+
+    # Report to axe.observer data tower
+    if [[ "$report" == "true" ]]; then
+        local clean_msg=$(echo "$message" | sed 's/"/\\"/g')
+        report_to_observer "🪓 ${title}: ${clean_msg}"
+    fi
 
     log "NOTIFY" "[$sound] $title — $message"
 }
@@ -86,14 +193,15 @@ set_state() {
     echo "$value" > "${STATE_DIR}/${key}"
 }
 
-# ─── Check: Ping a host ──────────────────────────────────────
+# ─── Check: Ping with latency ────────────────────────────────
 check_ping() {
     local ip="$1"
-    if ping -c 1 -W 2 "$ip" &>/dev/null; then
-        echo "online"
-    else
-        echo "offline"
-    fi
+    local result
+    result=$(ping -c 1 -W 2 "$ip" 2>/dev/null) || { echo "offline|0"; return; }
+
+    local latency
+    latency=$(echo "$result" | grep "time=" | sed 's/.*time=\([0-9.]*\).*/\1/' | head -1)
+    echo "online|${latency:-0}"
 }
 
 # ─── Check: TCP port ─────────────────────────────────────────
@@ -107,25 +215,139 @@ check_tcp() {
     fi
 }
 
-# ─── Check: HTTP endpoint ────────────────────────────────────
+# ─── Check: HTTP endpoint with response time ─────────────────
 check_http() {
     local url="$1"
-    local status
-    status=$(curl -s -o /dev/null -w "%{http_code}" --connect-timeout 5 --max-time 10 "$url" 2>/dev/null || echo "000")
+    local result
+    result=$(curl -s -o /dev/null -w "%{http_code}|%{time_total}" --connect-timeout 5 --max-time 10 "$url" 2>/dev/null || echo "000|0")
+    local status=$(echo "$result" | cut -d'|' -f1)
+    local time_s=$(echo "$result" | cut -d'|' -f2)
+    local time_ms=$(python3 -c "print(int(float('${time_s}') * 1000))" 2>/dev/null || echo "0")
+
     if [[ "$status" -ge 200 && "$status" -lt 400 ]]; then
-        echo "up"
+        echo "up|${time_ms}"
     else
-        echo "down"
+        echo "down|${time_ms}"
     fi
 }
 
-# ─── Check: WireGuard mesh ───────────────────────────────────
-check_wireguard() {
-    local peer_ip="$1"
-    if ping -c 1 -W 2 "$peer_ip" &>/dev/null; then
-        echo "up"
+# ─── Save Metric (for trend analysis) ────────────────────────
+save_metric() {
+    local key="$1"
+    local value="$2"
+    local metric_file="${METRICS_DIR}/${key}.csv"
+    local now=$(date +%s)
+
+    echo "${now},${value}" >> "$metric_file"
+
+    # Keep only last 1000 data points per metric
+    if [[ -f "$metric_file" ]]; then
+        local lines
+        lines=$(wc -l < "$metric_file" | tr -d ' ')
+        if [[ "$lines" -gt 1000 ]]; then
+            local tmp=$(mktemp)
+            tail -1000 "$metric_file" > "$tmp" && mv "$tmp" "$metric_file"
+        fi
+    fi
+}
+
+# ─── Anomaly Detection (simple z-score on latency) ───────────
+check_anomaly() {
+    local key="$1"
+    local current_ms="$2"
+    local metric_file="${METRICS_DIR}/${key}.csv"
+
+    if [[ ! -f "$metric_file" ]]; then
+        return 0
+    fi
+
+    local count
+    count=$(wc -l < "$metric_file" | tr -d ' ')
+
+    # Need at least 20 data points for meaningful stats
+    if [[ "$count" -lt 20 ]]; then
+        return 0
+    fi
+
+    # Calculate mean and stddev, check if current is anomalous (>3 sigma)
+    python3 -c "
+import statistics
+values = []
+with open('$metric_file') as f:
+    for line in f:
+        parts = line.strip().split(',')
+        if len(parts) == 2:
+            try:
+                values.append(float(parts[1]))
+            except:
+                pass
+
+if len(values) < 20:
+    exit(0)
+
+mean = statistics.mean(values)
+stdev = statistics.stdev(values)
+current = float($current_ms)
+
+if stdev > 0 and current > mean + (3 * stdev) and current > 100:
+    zscore = (current - mean) / stdev
+    print(f'ANOMALY: {current:.0f}ms is {zscore:.1f}σ above mean {mean:.0f}ms')
+" 2>/dev/null | while read -r anomaly_msg; do
+        if [[ -n "$anomaly_msg" ]]; then
+            notify "📊 AXE Anomaly" "${key}: ${anomaly_msg}" "Purr" "anomaly_${key}" "true"
+            log_event "$key" "anomaly" "normal" "anomalous" "$current_ms" "{\"message\":\"$anomaly_msg\"}"
+        fi
+    done
+}
+
+# ─── Handle state transition with flap detection ─────────────
+handle_transition() {
+    local key="$1"
+    local name="$2"
+    local new_state="$3"
+    local tier="$4"
+    local latency="${5:-0}"
+    local category="${6:-fleet}"
+
+    local prev
+    prev=$(get_state "$key")
+
+    if [[ "$new_state" == "$prev" ]]; then
+        return 0
+    fi
+
+    set_state "$key" "$new_state"
+    record_flap "$key"
+
+    local flapping
+    flapping=$(is_flapping "$key")
+    local flap_count
+    flap_count=$(get_flap_count "$key")
+
+    if [[ "$flapping" == "true" ]]; then
+        # Suppress individual alerts, send flapping warning instead
+        notify "🔄 FLAPPING" "${name} — ${flap_count} state changes in 5min (suppressed)" "Submarine" "flap_${key}" "true"
+        log_event "$key" "flapping" "$prev" "$new_state" "$latency" "{\"flap_count\":$flap_count,\"tier\":$tier}"
+        return 0
+    fi
+
+    # Normal transition — fire appropriate notification
+    log_event "$key" "transition" "$prev" "$new_state" "$latency" "{\"tier\":$tier,\"category\":\"$category\"}"
+
+    if [[ "$new_state" == "online" || "$new_state" == "up" ]]; then
+        local sound="Pop"
+        [[ "$tier" -le 1 ]] && sound="Hero"
+        local icon="✅"
+        [[ "$category" == "web" ]] && icon="🌐"
+        [[ "$category" == "droplet" ]] && icon="☁️"
+        [[ "$category" == "wireguard" ]] && icon="🔒"
+        notify "${icon} AXE ${category^}" "${name} is UP" "$sound" "${key}" "true"
     else
-        echo "down"
+        local sound="Purr"
+        [[ "$tier" -le 1 ]] && sound="Basso"
+        local icon="🔴"
+        [[ "$category" == "wireguard" ]] && icon="🔓"
+        notify "${icon} AXE ${category^}" "${name} is DOWN" "$sound" "${key}" "true"
     fi
 }
 
@@ -144,25 +366,19 @@ for key, machine in fleet.items():
     print(f'{key}|{name}|{ip}|{tier}|{do_ping}|{svc_json}')
 " | while IFS='|' read -r key name ip tier do_ping services_json; do
 
-        # Ping check
         if [[ "$do_ping" == "True" ]]; then
-            local status
-            status=$(check_ping "$ip")
-            local prev
-            prev=$(get_state "fleet_${key}_ping")
+            local ping_result
+            ping_result=$(check_ping "$ip")
+            local status=$(echo "$ping_result" | cut -d'|' -f1)
+            local latency=$(echo "$ping_result" | cut -d'|' -f2)
 
-            if [[ "$status" != "$prev" ]]; then
-                set_state "fleet_${key}_ping" "$status"
-                if [[ "$status" == "online" ]]; then
-                    local sound="Hero"
-                    [[ "$tier" -gt 2 ]] && sound="Pop"
-                    notify "⚡ AXE Fleet" "${name} is ONLINE" "$sound" "fleet_${key}_ping"
-                else
-                    local sound="Basso"
-                    [[ "$tier" -gt 2 ]] && sound="Purr"
-                    notify "🔴 AXE Fleet" "${name} is OFFLINE" "$sound" "fleet_${key}_ping"
-                fi
+            # Save latency metric
+            if [[ "$status" == "online" ]]; then
+                save_metric "ping_${key}" "$latency"
+                check_anomaly "ping_${key}" "$latency"
             fi
+
+            handle_transition "fleet_${key}_ping" "$name" "$status" "$tier" "${latency%.*}" "fleet"
 
             # Only check services if host is online
             if [[ "$status" == "online" ]]; then
@@ -170,30 +386,26 @@ for key, machine in fleet.items():
 import json, sys
 services = json.load(sys.stdin)
 for svc in services:
-    name = svc['name']
-    port = svc['port']
-    proto = svc.get('protocol', 'tcp')
-    path = svc.get('path', '/')
-    print(f'{name}|{port}|{proto}|{path}')
+    n = svc['name']
+    p = svc['port']
+    pr = svc.get('protocol', 'tcp')
+    pa = svc.get('path', '/')
+    print(f'{n}|{p}|{pr}|{pa}')
 " 2>/dev/null | while IFS='|' read -r svc_name svc_port svc_proto svc_path; do
-                    local svc_status
+                    local svc_status svc_latency=0
                     if [[ "$svc_proto" == "http" ]]; then
-                        svc_status=$(check_http "http://${ip}:${svc_port}${svc_path}")
+                        local http_result
+                        http_result=$(check_http "http://${ip}:${svc_port}${svc_path}")
+                        svc_status=$(echo "$http_result" | cut -d'|' -f1)
+                        svc_latency=$(echo "$http_result" | cut -d'|' -f2)
+                        save_metric "http_${key}_${svc_name// /_}" "$svc_latency"
+                        check_anomaly "http_${key}_${svc_name// /_}" "$svc_latency"
                     else
                         svc_status=$(check_tcp "$ip" "$svc_port")
                     fi
 
-                    local svc_prev
-                    svc_prev=$(get_state "fleet_${key}_svc_${svc_name// /_}")
-
-                    if [[ "$svc_status" != "$svc_prev" ]]; then
-                        set_state "fleet_${key}_svc_${svc_name// /_}" "$svc_status"
-                        if [[ "$svc_status" == "up" ]]; then
-                            notify "✅ ${name}" "${svc_name} is UP (port ${svc_port})" "Pop" "fleet_${key}_${svc_name// /_}"
-                        else
-                            notify "⚠️ ${name}" "${svc_name} is DOWN (port ${svc_port})" "Purr" "fleet_${key}_${svc_name// /_}"
-                        fi
-                    fi
+                    local svc_key="fleet_${key}_svc_${svc_name// /_}"
+                    handle_transition "$svc_key" "${name} → ${svc_name} (:${svc_port})" "$svc_status" "$tier" "$svc_latency" "service"
                 done
             fi
         else
@@ -202,30 +414,25 @@ for svc in services:
 import json, sys
 services = json.load(sys.stdin)
 for svc in services:
-    name = svc['name']
-    port = svc['port']
-    proto = svc.get('protocol', 'tcp')
-    path = svc.get('path', '/')
-    print(f'{name}|{port}|{proto}|{path}')
+    n = svc['name']
+    p = svc['port']
+    pr = svc.get('protocol', 'tcp')
+    pa = svc.get('path', '/')
+    print(f'{n}|{p}|{pr}|{pa}')
 " 2>/dev/null | while IFS='|' read -r svc_name svc_port svc_proto svc_path; do
-                local svc_status
+                local svc_status svc_latency=0
                 if [[ "$svc_proto" == "http" ]]; then
-                    svc_status=$(check_http "http://${ip}:${svc_port}${svc_path}")
+                    local http_result
+                    http_result=$(check_http "http://127.0.0.1:${svc_port}${svc_path}")
+                    svc_status=$(echo "$http_result" | cut -d'|' -f1)
+                    svc_latency=$(echo "$http_result" | cut -d'|' -f2)
+                    save_metric "http_local_${svc_name// /_}" "$svc_latency"
                 else
-                    svc_status=$(check_tcp "$ip" "$svc_port")
+                    svc_status=$(check_tcp "127.0.0.1" "$svc_port")
                 fi
 
-                local svc_prev
-                svc_prev=$(get_state "fleet_${key}_svc_${svc_name// /_}")
-
-                if [[ "$svc_status" != "$svc_prev" ]]; then
-                    set_state "fleet_${key}_svc_${svc_name// /_}" "$svc_status"
-                    if [[ "$svc_status" == "up" ]]; then
-                        notify "✅ JL2 Local" "${svc_name} is UP (port ${svc_port})" "Pop" "local_${svc_name// /_}"
-                    else
-                        notify "⚠️ JL2 Local" "${svc_name} is DOWN (port ${svc_port})" "Purr" "local_${svc_name// /_}"
-                    fi
-                fi
+                local svc_key="local_svc_${svc_name// /_}"
+                handle_transition "$svc_key" "JL2 → ${svc_name} (:${svc_port})" "$svc_status" "1" "$svc_latency" "service"
             done
         fi
     done
@@ -240,23 +447,14 @@ for key, svc in cfg.get('web_services', {}).items():
     tier = svc.get('tier', 2)
     print(f'{key}|{name}|{url}|{tier}')
 " | while IFS='|' read -r key name url tier; do
-        local status
-        status=$(check_http "$url")
-        local prev
-        prev=$(get_state "web_${key}")
+        local http_result
+        http_result=$(check_http "$url")
+        local status=$(echo "$http_result" | cut -d'|' -f1)
+        local latency=$(echo "$http_result" | cut -d'|' -f2)
 
-        if [[ "$status" != "$prev" ]]; then
-            set_state "web_${key}" "$status"
-            if [[ "$status" == "up" ]]; then
-                local sound="Pop"
-                [[ "$tier" -eq 1 ]] && sound="Hero"
-                notify "🌐 AXE Web" "${name} is UP" "$sound" "web_${key}"
-            else
-                local sound="Purr"
-                [[ "$tier" -eq 1 ]] && sound="Basso"
-                notify "🔴 AXE Web" "${name} is DOWN — ${url}" "$sound" "web_${key}"
-            fi
-        fi
+        save_metric "web_${key}" "$latency"
+        check_anomaly "web_${key}" "$latency"
+        handle_transition "web_${key}" "$name" "$status" "$tier" "$latency" "web"
     done
 }
 
@@ -274,19 +472,18 @@ peers = cfg.get('wireguard', {}).get('peers', {})
 for key, ip in peers.items():
     print(f'{key}|{ip}')
 " | while IFS='|' read -r key ip; do
-        local status
-        status=$(check_wireguard "$ip")
-        local prev
-        prev=$(get_state "wg_${key}")
+        local ping_result
+        ping_result=$(check_ping "$ip")
+        local status=$(echo "$ping_result" | cut -d'|' -f1)
+        local latency=$(echo "$ping_result" | cut -d'|' -f2)
 
-        if [[ "$status" != "$prev" ]]; then
-            set_state "wg_${key}" "$status"
-            if [[ "$status" == "up" ]]; then
-                notify "🔒 WireGuard" "Mesh peer ${key} (${ip}) is UP" "Pop" "wg_${key}"
-            else
-                notify "🔓 WireGuard" "Mesh peer ${key} (${ip}) is DOWN" "Basso" "wg_${key}"
-            fi
+        if [[ "$status" == "online" ]]; then
+            save_metric "wg_${key}" "$latency"
         fi
+
+        local wg_state="up"
+        [[ "$status" != "online" ]] && wg_state="down"
+        handle_transition "wg_${key}" "WG mesh → ${key} (${ip})" "$wg_state" "1" "${latency%.*}" "wireguard"
     done
 }
 
@@ -301,71 +498,119 @@ for key, drop in cfg.get('droplets', {}).items():
     services = json.dumps(drop.get('services', []))
     print(f'{key}|{name}|{ip}|{tier}|{services}')
 " | while IFS='|' read -r key name ip tier services_json; do
-        # Ping droplet
-        local status
-        status=$(check_ping "$ip")
-        local prev
-        prev=$(get_state "droplet_${key}_ping")
+        local ping_result
+        ping_result=$(check_ping "$ip")
+        local status=$(echo "$ping_result" | cut -d'|' -f1)
+        local latency=$(echo "$ping_result" | cut -d'|' -f2)
 
-        if [[ "$status" != "$prev" ]]; then
-            set_state "droplet_${key}_ping" "$status"
-            if [[ "$status" == "online" ]]; then
-                notify "☁️ Droplet" "${name} (${ip}) is ONLINE" "Hero" "droplet_${key}_ping"
-            else
-                notify "🔴 Droplet" "${name} (${ip}) is OFFLINE" "Basso" "droplet_${key}_ping"
-            fi
+        if [[ "$status" == "online" ]]; then
+            save_metric "droplet_${key}" "$latency"
         fi
 
-        # Check services if online
+        handle_transition "droplet_${key}_ping" "$name" "$status" "$tier" "${latency%.*}" "droplet"
+
         if [[ "$status" == "online" ]]; then
             echo "$services_json" | python3 -c "
 import json, sys
 services = json.load(sys.stdin)
 for svc in services:
-    name = svc['name']
-    port = svc['port']
-    proto = svc.get('protocol', 'tcp')
-    path = svc.get('path', '/')
-    print(f'{name}|{port}|{proto}|{path}')
+    n = svc['name']
+    p = svc['port']
+    pr = svc.get('protocol', 'tcp')
+    pa = svc.get('path', '/')
+    print(f'{n}|{p}|{pr}|{pa}')
 " 2>/dev/null | while IFS='|' read -r svc_name svc_port svc_proto svc_path; do
-                local svc_status
+                local svc_status svc_latency=0
                 if [[ "$svc_proto" == "http" ]]; then
-                    svc_status=$(check_http "http://${ip}:${svc_port}${svc_path}")
+                    local http_result
+                    http_result=$(check_http "http://${ip}:${svc_port}${svc_path}")
+                    svc_status=$(echo "$http_result" | cut -d'|' -f1)
+                    svc_latency=$(echo "$http_result" | cut -d'|' -f2)
                 elif [[ "$svc_port" == "443" ]]; then
                     svc_status=$(check_tcp "$ip" "$svc_port")
                 else
                     svc_status=$(check_tcp "$ip" "$svc_port")
                 fi
 
-                local svc_prev
-                svc_prev=$(get_state "droplet_${key}_svc_${svc_name// /_}")
-
-                if [[ "$svc_status" != "$svc_prev" ]]; then
-                    set_state "droplet_${key}_svc_${svc_name// /_}" "$svc_status"
-                    if [[ "$svc_status" == "up" ]]; then
-                        notify "☁️ ${name}" "${svc_name} is UP" "Pop" "droplet_${key}_${svc_name// /_}"
-                    else
-                        notify "⚠️ ${name}" "${svc_name} is DOWN" "Purr" "droplet_${key}_${svc_name// /_}"
-                    fi
-                fi
+                handle_transition "droplet_${key}_svc_${svc_name// /_}" "${name} → ${svc_name}" "$svc_status" "$tier" "$svc_latency" "droplet"
             done
         fi
     done
 }
 
+# ─── Daily Summary (fires at first check after midnight) ─────
+check_daily_summary() {
+    local today=$(date +%Y-%m-%d)
+    local summary_file="${STATE_DIR}/_last_summary"
+
+    if [[ -f "$summary_file" ]] && [[ "$(cat "$summary_file")" == "$today" ]]; then
+        return 0
+    fi
+
+    echo "$today" > "$summary_file"
+
+    # Count current states
+    local online=0 offline=0 services_up=0 services_down=0 web_up=0 web_down=0
+
+    for f in "${STATE_DIR}"/fleet_*_ping; do
+        [[ -f "$f" ]] || continue
+        [[ "$(cat "$f")" == "online" ]] && ((online++)) || ((offline++))
+    done
+
+    for f in "${STATE_DIR}"/fleet_*_svc_* "${STATE_DIR}"/local_svc_*; do
+        [[ -f "$f" ]] || continue
+        [[ "$(cat "$f")" == "up" ]] && ((services_up++)) || ((services_down++))
+    done
+
+    for f in "${STATE_DIR}"/web_*; do
+        [[ -f "$f" ]] || continue
+        [[ "$(cat "$f")" == "up" ]] && ((web_up++)) || ((web_down++))
+    done
+
+    local summary="Daily: ${online} machines online, ${offline} offline | ${services_up} services up, ${services_down} down | ${web_up} web up, ${web_down} down"
+
+    notify "📊 AXE Daily Summary" "$summary" "Glass" "daily_summary" "true"
+    log_event "system" "daily_summary" "none" "none" "0" "{\"machines_online\":$online,\"machines_offline\":$offline,\"services_up\":$services_up,\"services_down\":$services_down,\"web_up\":$web_up,\"web_down\":$web_down}"
+}
+
 # ─── Status CLI ───────────────────────────────────────────────
 if [[ "${1:-}" == "status" ]]; then
-    echo "═══ AXE Fleet Status ═══"
+    echo "═══ AXE Fleet Status (v${VERSION}) ═══"
     echo ""
     echo "Fleet Machines:"
     for f in "${STATE_DIR}"/fleet_*_ping; do
         [[ -f "$f" ]] || continue
         key=$(basename "$f" | sed 's/fleet_//;s/_ping//')
         status=$(cat "$f")
+        flap_count=$(get_flap_count "fleet_${key}_ping")
         icon="🔴"
         [[ "$status" == "online" ]] && icon="✅"
+        extra=""
+        [[ "$flap_count" -ge "$FLAP_THRESHOLD" ]] && extra=" ⚠️ FLAPPING (${flap_count}x)"
+        echo "  $icon $key: $status${extra}"
+
+        # Show services for this machine
+        for sf in "${STATE_DIR}"/fleet_${key}_svc_*; do
+            [[ -f "$sf" ]] || continue
+            svc_name=$(basename "$sf" | sed "s/fleet_${key}_svc_//")
+            svc_status=$(cat "$sf")
+            svc_icon="  🔴"
+            [[ "$svc_status" == "up" ]] && svc_icon="  ✅"
+            echo "    $svc_icon $svc_name: $svc_status"
+        done
+    done
+
+    echo ""
+    echo "Local Services (JL2):"
+    for f in "${STATE_DIR}"/local_svc_*; do
+        [[ -f "$f" ]] || continue
+        key=$(basename "$f" | sed 's/local_svc_//')
+        status=$(cat "$f")
+        icon="🔴"
+        [[ "$status" == "up" ]] && icon="✅"
         echo "  $icon $key: $status"
     done
+
     echo ""
     echo "Web Services:"
     for f in "${STATE_DIR}"/web_*; do
@@ -376,6 +621,7 @@ if [[ "${1:-}" == "status" ]]; then
         [[ "$status" == "up" ]] && icon="✅"
         echo "  $icon $key: $status"
     done
+
     echo ""
     echo "WireGuard Mesh:"
     for f in "${STATE_DIR}"/wg_*; do
@@ -386,6 +632,7 @@ if [[ "${1:-}" == "status" ]]; then
         [[ "$status" == "up" ]] && icon="🔒"
         echo "  $icon $key: $status"
     done
+
     echo ""
     echo "Droplets:"
     for f in "${STATE_DIR}"/droplet_*_ping; do
@@ -396,20 +643,41 @@ if [[ "${1:-}" == "status" ]]; then
         [[ "$status" == "online" ]] && icon="☁️"
         echo "  $icon $key: $status"
     done
+
     echo ""
-    echo "Last log entries:"
-    tail -5 "$LOG_FILE" 2>/dev/null || echo "  (no logs yet)"
+    echo "Events (last 24h):"
+    if [[ -f "$EVENTS_LOG" ]]; then
+        local today=$(date +%Y-%m-%d)
+        grep "$today" "$EVENTS_LOG" 2>/dev/null | wc -l | xargs -I{} echo "  {} events today"
+        echo "  Last 5:"
+        tail -5 "$EVENTS_LOG" | python3 -c "
+import json, sys
+for line in sys.stdin:
+    try:
+        e = json.loads(line.strip())
+        print(f\"    {e['timestamp'][:19]} {e['target']}: {e['old_state']}→{e['new_state']} ({e['event']})\")
+    except:
+        pass
+" 2>/dev/null
+    else
+        echo "  (no events yet)"
+    fi
+
+    echo ""
+    echo "Metrics files: $(ls "${METRICS_DIR}"/*.csv 2>/dev/null | wc -l | tr -d ' ') tracked"
+    echo "Log: $LOG_FILE"
     exit 0
 fi
 
 # ─── Main Loop ────────────────────────────────────────────────
 log "INFO" "Starting monitoring loop (${POLL_INTERVAL}s interval)"
-notify "🪓 AXE Fleet" "Fleet Notify daemon started — monitoring all services" "Glass" "daemon_start"
+report_to_observer "🪓 AXE Fleet Notify v${VERSION} started — monitoring all services"
+notify "🪓 AXE Fleet" "Fleet Notify v${VERSION} started — monitoring all services" "Glass" "daemon_start" "false"
 
-# Trap for clean shutdown
-trap 'log "INFO" "═══ AXE Fleet Notify stopping ═══"; notify "🪓 AXE Fleet" "Fleet Notify daemon stopped" "Basso" "daemon_stop"; exit 0' SIGTERM SIGINT
+trap 'log "INFO" "═══ AXE Fleet Notify stopping ═══"; report_to_observer "🪓 AXE Fleet Notify stopped"; notify "🪓 AXE Fleet" "Fleet Notify daemon stopped" "Basso" "daemon_stop" "false"; exit 0' SIGTERM SIGINT
 
 while true; do
+    check_daily_summary
     monitor_fleet
     monitor_web
     monitor_wireguard
