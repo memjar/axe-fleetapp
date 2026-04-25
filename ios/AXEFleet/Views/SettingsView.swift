@@ -189,6 +189,7 @@ struct SettingsView: View {
     // MARK: - Actions
 
     private func testConnection() {
+        Haptics.impact(.medium)
         isTesting = true
         connectionTestResult = nil
         Task {
@@ -199,6 +200,13 @@ struct SettingsView: View {
                 connectionTestResult = reachable
                     ? "[+] Connected to \(serverURL)"
                     : "[-] Cannot reach \(serverURL)"
+
+                // Haptic feedback on result
+                if reachable {
+                    Haptics.notification(.success)
+                } else {
+                    Haptics.notification(.error)
+                }
             }
         }
     }

@@ -174,7 +174,7 @@ struct StateChange: Identifiable, Sendable {
 
 // MARK: - Connection State
 
-enum ConnectionState: Sendable {
+enum ConnectionState: Sendable, Equatable {
     case connecting
     case connected
     case disconnected

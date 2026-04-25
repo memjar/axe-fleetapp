@@ -126,6 +126,15 @@ final class FleetMonitor: ObservableObject {
             )
             recentChanges.insert(change, at: 0)
             sendLocalNotification(target: target.displayName, from: oldState, to: target.state)
+
+            // Haptic feedback on state changes
+            if target.state == .down {
+                Haptics.notification(.error)
+            } else if target.state == .up && oldState == .down {
+                Haptics.notification(.success)
+            } else {
+                Haptics.impact(.light)
+            }
         }
 
         if recentChanges.count > maxChangeHistory {

@@ -18,9 +18,8 @@
 		8992C6A1406D8DB3BB1CABE6 /* FleetMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF748FA18E2D4644F71F63A /* FleetMonitor.swift */; };
 		9DA987B1E59BAB7D4A1957C7 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A9C13D5A712618BE0A31B9 /* NotificationService.swift */; };
 		A955C2548115EE34FBA24CB1 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3A728F4F6308431431FA79 /* Theme.swift */; };
+		BA27353E436945619E87C145 /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D4F76DCDC24A7DB2590DC0 /* Haptics.swift */; };
 		BA786876015CA1F19F80BCF7 /* AXEFleetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD12D4F4F9E7C6865B297A2 /* AXEFleetApp.swift */; };
-		BB0000000000000000000002 /* UpdateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000001 /* UpdateService.swift */; };
-		BB0000000000000000000004 /* UpdateBannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0000000000000000000003 /* UpdateBannerView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +27,7 @@
 		1DE42708642374521D38BB1D /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
 		48FE887C0563B171DC941C47 /* AXEFleet.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AXEFleet.entitlements; sourceTree = "<group>"; };
 		5C3A728F4F6308431431FA79 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		95D4F76DCDC24A7DB2590DC0 /* Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptics.swift; sourceTree = "<group>"; };
 		662A14E53E0A14D393683DC2 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		81D1F38096ADC7A97821724E /* AXEFleet.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = AXEFleet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AF748FA18E2D4644F71F63A /* FleetMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FleetMonitor.swift; sourceTree = "<group>"; };
@@ -39,8 +39,6 @@
 		F5015DFFA986A747B0B2D568 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		F988A051A6C63CF87340B8DE /* EventsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsView.swift; sourceTree = "<group>"; };
 		FCD3D589E6005C8219692478 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		BB0000000000000000000001 /* UpdateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateService.swift; sourceTree = "<group>"; };
-		BB0000000000000000000003 /* UpdateBannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateBannerView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -88,7 +86,7 @@
 				1DE42708642374521D38BB1D /* Models.swift */,
 				E5A9C13D5A712618BE0A31B9 /* NotificationService.swift */,
 				5C3A728F4F6308431431FA79 /* Theme.swift */,
-				BB0000000000000000000001 /* UpdateService.swift */,
+				95D4F76DCDC24A7DB2590DC0 /* Haptics.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -118,7 +116,6 @@
 				662A14E53E0A14D393683DC2 /* DashboardView.swift */,
 				F988A051A6C63CF87340B8DE /* EventsView.swift */,
 				F5015DFFA986A747B0B2D568 /* SettingsView.swift */,
-				BB0000000000000000000003 /* UpdateBannerView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -205,8 +202,7 @@
 				9DA987B1E59BAB7D4A1957C7 /* NotificationService.swift in Sources */,
 				8786A690740FDDBD9E634E28 /* SettingsView.swift in Sources */,
 				A955C2548115EE34FBA24CB1 /* Theme.swift in Sources */,
-				BB0000000000000000000002 /* UpdateService.swift in Sources */,
-				BB0000000000000000000004 /* UpdateBannerView.swift in Sources */,
+				BA27353E436945619E87C145 /* Haptics.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

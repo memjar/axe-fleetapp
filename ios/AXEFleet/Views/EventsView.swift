@@ -92,6 +92,10 @@ struct EventsView: View {
         }
         .padding(.horizontal, AXETheme.cardPadding)
         .padding(.vertical, 12)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            Haptics.selection()
+        }
     }
 
     private var emptyState: some View {

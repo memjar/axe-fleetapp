@@ -6,6 +6,7 @@ import SwiftUI
 
 struct DashboardView: View {
     @ObservedObject var monitor: FleetMonitor
+    @State private var isPulsing = false
 
     var body: some View {
         NavigationStack {
@@ -219,6 +220,9 @@ struct DashboardView: View {
         Circle()
             .fill(connectionColor)
             .frame(width: 8, height: 8)
+            .scaleEffect(isPulsing && monitor.connectionState == .connected ? 1.2 : 1.0)
+            .animation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true), value: isPulsing)
+            .onAppear { isPulsing = true }
     }
 
     private var connectionColor: Color {
