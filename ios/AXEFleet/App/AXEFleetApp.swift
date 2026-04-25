@@ -65,6 +65,31 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
                     try? await UNUserNotificationCenter.current().add(request)
                 }
 
+                // Also fetch fleet events and notify for critical/warning
+                do {
+                    let events = try await APIClient.shared.fetchEvents(limit: 20)
+                    for event in events {
+                        let sev = event.severity.lowercased()
+                        guard sev == "critical" || sev == "warning" else { continue }
+
+                        let content = UNMutableNotificationContent()
+                        content.title = sev == "critical" ? "🚨 Fleet Alert" : "⚠️ Fleet Warning"
+                        content.body = event.message
+                        content.sound = sev == "critical" ? .defaultCritical : .default
+                        content.threadIdentifier = "axe-fleet-events"
+                        content.categoryIdentifier = sev == "critical" ? "AXE_CRITICAL" : "AXE_INFO"
+
+                        let request = UNNotificationRequest(
+                            identifier: "fleet-event-\(event.id)",
+                            content: content,
+                            trigger: nil
+                        )
+                        try? await UNUserNotificationCenter.current().add(request)
+                    }
+                } catch {
+                    print("[AXE] Background event fetch error: \(error)")
+                }
+
                 task.setTaskCompleted(success: true)
             } catch {
                 task.setTaskCompleted(success: false)

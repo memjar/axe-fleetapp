@@ -1,0 +1,81 @@
+{
+  "" : {
+    "const-values" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/AXEFleet-primary.swiftconstvalues",
+    "dependencies" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/AXEFleet-primary.d",
+    "diagnostics" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/AXEFleet-primary.dia",
+    "emit-module-dependencies" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/AXEFleet-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/AXEFleet-primary-emit-module.dia",
+    "pch" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/AXEFleet-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/AXEFleet-primary.swiftdeps"
+  },
+  "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/AXEFleet/App/AXEFleetApp.swift" : {
+    "index-unit-output-path" : "/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/AXEFleetApp.o",
+    "llvm-bc" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/AXEFleetApp.bc",
+    "object" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/AXEFleetApp.o"
+  },
+  "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/AXEFleet/Shared/APIClient.swift" : {
+    "index-unit-output-path" : "/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/APIClient.o",
+    "llvm-bc" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/APIClient.bc",
+    "object" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/APIClient.o"
+  },
+  "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/AXEFleet/Shared/FleetMonitor.swift" : {
+    "index-unit-output-path" : "/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/FleetMonitor.o",
+    "llvm-bc" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/FleetMonitor.bc",
+    "object" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/FleetMonitor.o"
+  },
+  "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/AXEFleet/Shared/Haptics.swift" : {
+    "index-unit-output-path" : "/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/Haptics.o",
+    "llvm-bc" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/Haptics.bc",
+    "object" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/Haptics.o"
+  },
+  "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/AXEFleet/Shared/Models.swift" : {
+    "index-unit-output-path" : "/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/Models.o",
+    "llvm-bc" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/Models.bc",
+    "object" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/Models.o"
+  },
+  "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/AXEFleet/Shared/NotificationService.swift" : {
+    "index-unit-output-path" : "/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/NotificationService.o",
+    "llvm-bc" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/NotificationService.bc",
+    "object" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/NotificationService.o"
+  },
+  "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/AXEFleet/Shared/Theme.swift" : {
+    "index-unit-output-path" : "/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/Theme.o",
+    "llvm-bc" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/Theme.bc",
+    "object" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/Theme.o"
+  },
+  "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/AXEFleet/Views/AIInsightsView.swift" : {
+    "index-unit-output-path" : "/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/AIInsightsView.o",
+    "llvm-bc" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/AIInsightsView.bc",
+    "object" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/AIInsightsView.o"
+  },
+  "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/AXEFleet/Views/ContentView.swift" : {
+    "index-unit-output-path" : "/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/ContentView.o",
+    "llvm-bc" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/ContentView.bc",
+    "object" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/ContentView.o"
+  },
+  "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/AXEFleet/Views/DashboardView.swift" : {
+    "index-unit-output-path" : "/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/DashboardView.o",
+    "llvm-bc" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/DashboardView.bc",
+    "object" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/DashboardView.o"
+  },
+  "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/AXEFleet/Views/EventToast.swift" : {
+    "index-unit-output-path" : "/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/EventToast.o",
+    "llvm-bc" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/EventToast.bc",
+    "object" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/EventToast.o"
+  },
+  "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/AXEFleet/Views/EventsView.swift" : {
+    "index-unit-output-path" : "/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/EventsView.o",
+    "llvm-bc" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/EventsView.bc",
+    "object" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/EventsView.o"
+  },
+  "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/AXEFleet/Views/SettingsView.swift" : {
+    "index-unit-output-path" : "/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/SettingsView.o",
+    "llvm-bc" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/SettingsView.bc",
+    "object" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/SettingsView.o"
+  },
+  "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "index-unit-output-path" : "/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "llvm-bc" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/GeneratedAssetSymbols.bc",
+    "object" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/GeneratedAssetSymbols.o"
+  }
+}

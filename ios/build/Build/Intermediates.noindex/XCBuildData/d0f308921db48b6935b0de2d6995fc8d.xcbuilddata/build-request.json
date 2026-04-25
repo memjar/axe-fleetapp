@@ -1,0 +1,73 @@
+{
+  "buildCommand" : {
+    "command" : "build",
+    "skipDependencies" : false,
+    "style" : "buildOnly"
+  },
+  "configuredTargets" : [
+    {
+      "guid" : "f9f94d744e9ed84ba1de60d9c56a257abaf24108e7ca3e17bb879f32661aea8f"
+    }
+  ],
+  "containerPath" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/AXEFleet.xcodeproj",
+  "continueBuildingAfterErrors" : false,
+  "dependencyScope" : "workspace",
+  "enableIndexBuildArena" : false,
+  "hideShellScriptEnvironment" : false,
+  "parameters" : {
+    "action" : "build",
+    "activeArchitecture" : "undefined_arch",
+    "activeRunDestination" : {
+      "disableOnlyActiveArch" : true,
+      "hostTargetedPlatform" : null,
+      "platform" : "iphoneos",
+      "sdk" : "iphoneos26.4",
+      "sdkVariant" : "iphoneos",
+      "supportedArchitectures" : [
+        "armv4t",
+        "armv5",
+        "armv6",
+        "armv7",
+        "armv7f",
+        "armv7s",
+        "armv7k",
+        "arm64",
+        "arm64e"
+      ],
+      "targetArchitecture" : "undefined_arch"
+    },
+    "arenaInfo" : {
+      "buildIntermediatesPath" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex",
+      "buildProductsPath" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Products",
+      "derivedDataPath" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build",
+      "indexDataStoreFolderPath" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Index.noindex/DataStore",
+      "indexEnableDataStore" : true,
+      "indexPCHPath" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Index.noindex/PrecompiledHeaders",
+      "pchPath" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/PrecompiledHeaders"
+    },
+    "configurationName" : "Release",
+    "overrides" : {
+      "commandLine" : {
+        "table" : {
+          "CODE_SIGN_IDENTITY" : "Apple Development",
+          "CODE_SIGNING_ALLOWED" : "YES",
+          "DEVELOPMENT_TEAM" : "237Q6KHJY6",
+          "PROVISIONING_PROFILE_SPECIFIER" : ""
+        }
+      },
+      "synthesized" : {
+        "table" : {
+          "ACTION" : "build",
+          "ENABLE_PREVIEWS" : "NO",
+          "ENABLE_XOJIT_PREVIEWS" : "YES"
+        }
+      }
+    }
+  },
+  "schemeCommand" : "launch",
+  "showNonLoggedProgress" : true,
+  "useDryRun" : false,
+  "useImplicitDependencies" : true,
+  "useLegacyBuildLocations" : false,
+  "useParallelTargets" : true
+}

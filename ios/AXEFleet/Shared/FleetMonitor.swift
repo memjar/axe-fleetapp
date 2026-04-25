@@ -163,7 +163,7 @@ class FleetMonitor: ObservableObject {
                 seenEventIds = Set(events.prefix(200).map { $0.id })
             }
         } catch {
-            // Silent — status polling handles connection display
+            print("[AXE] Event fetch error: \(error)")
         }
     }
     

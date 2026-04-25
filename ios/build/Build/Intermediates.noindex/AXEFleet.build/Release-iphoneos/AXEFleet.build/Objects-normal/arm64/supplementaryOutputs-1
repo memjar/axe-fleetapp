@@ -1,0 +1,12 @@
+{
+  "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/AXEFleet/Views/AIInsightsView.swift" : {
+    "abi-baseline-json" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/AXEFleet.abi.json",
+    "const-values" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/AXEFleet-primary.swiftconstvalues",
+    "dependencies" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/AXEFleet-primary.d",
+    "diagnostics" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/AXEFleet-primary.dia",
+    "objc-header" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/AXEFleet-Swift.h",
+    "swiftdoc" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/AXEFleet.swiftdoc",
+    "swiftmodule" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/AXEFleet.swiftmodule",
+    "swiftsourceinfo" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/Build/Intermediates.noindex/AXEFleet.build/Release-iphoneos/AXEFleet.build/Objects-normal/arm64/AXEFleet.swiftsourceinfo"
+  }
+}

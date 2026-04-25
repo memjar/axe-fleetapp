@@ -62,40 +62,60 @@ class APIClient {
     }
     
     // MARK: - Fleet Events
-    
+
     func fetchEvents(since: String? = nil, limit: Int = 100) async throws -> [FleetEvent] {
         var components = URLComponents(string: "\(baseURL)/api/fleet/events")
         var queryItems: [URLQueryItem] = []
-        
+
         if let since = since {
             queryItems.append(URLQueryItem(name: "since", value: since))
         }
         queryItems.append(URLQueryItem(name: "limit", value: String(limit)))
         components?.queryItems = queryItems
-        
+
         guard let url = components?.url else {
             throw APIError.invalidURL
         }
-        
+
         let (data, response) = try await URLSession.shared.data(from: url)
-        
+
         guard let http = response as? HTTPURLResponse, (200...299).contains(http.statusCode) else {
             throw APIError.invalidResponse
         }
-        
+
         let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        decoder.dateDecodingStrategy = .iso8601
-        
+
+        // Custom date decoder: handles ISO8601 with AND without fractional seconds
+        let isoFrac = ISO8601DateFormatter()
+        isoFrac.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        let isoPlain = ISO8601DateFormatter()
+        isoPlain.formatOptions = [.withInternetDateTime]
+
+        decoder.dateDecodingStrategy = .custom { decoder in
+            let container = try decoder.singleValueContainer()
+            let str = try container.decode(String.self)
+            if let date = isoFrac.date(from: str) { return date }
+            if let date = isoPlain.date(from: str) { return date }
+            throw DecodingError.dataCorruptedError(
+                in: container,
+                debugDescription: "Cannot decode date: \(str)"
+            )
+        }
+
         struct EventsResponse: Codable {
             let events: [FleetEvent]
             let total: Int
             let filtered: Int
-            let timestamp: Date
+            let timestamp: String
         }
-        
-        let result = try decoder.decode(EventsResponse.self, from: data)
-        return result.events
+
+        do {
+            let result = try decoder.decode(EventsResponse.self, from: data)
+            return result.events
+        } catch {
+            print("[AXE] Event decode error: \(error)")
+            return []
+        }
     }
 
     // MARK: - Configuration

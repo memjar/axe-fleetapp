@@ -238,6 +238,14 @@ struct FleetEvent: Identifiable, Codable, Sendable {
     let severity: String
     let source: String
     let timestamp: Date
+    let eventType: String?
+    let metadata: [String: String]?
+
+    enum CodingKeys: String, CodingKey {
+        case id, message, severity, source, timestamp
+        case eventType = "event_type"
+        case metadata
+    }
 
     var icon: String {
         switch severity.lowercased() {

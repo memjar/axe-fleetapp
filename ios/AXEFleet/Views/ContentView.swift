@@ -5,7 +5,8 @@ struct ContentView: View {
     @State private var selectedTab = 0
     @State private var activeToasts: [FleetEvent] = []
     @State private var lastSeenEventId: String?
-    
+    @Environment(\.scenePhase) var scenePhase
+
     var body: some View {
         ZStack(alignment: .top) {
             // Main tab view
@@ -57,9 +58,19 @@ struct ContentView: View {
             monitor.startPolling()
             monitor.startEventPolling()
         }
-        .onDisappear {
-            monitor.stopPolling()
-            monitor.stopEventPolling()
+        .onChange(of: scenePhase) { phase in
+            switch phase {
+            case .active:
+                monitor.startPolling()
+                monitor.startEventPolling()
+            case .background:
+                monitor.stopPolling()
+                monitor.stopEventPolling()
+            case .inactive:
+                break
+            @unknown default:
+                break
+            }
         }
         .onReceive(monitor.$events) { events in
             guard let newest = events.first else { return }
