@@ -1,0 +1,364 @@
+{
+  "builtTestProducts" : [
+
+  ],
+  "copyCommands" : {
+
+  },
+  "explicitTargetDependencyImportCheckingMode" : {
+    "none" : {
+
+    }
+  },
+  "generatedSourceTargetSet" : [
+
+  ],
+  "pluginDescriptions" : [
+
+  ],
+  "swiftCommands" : {
+    "C.AXEFleet-arm64-apple-macosx-release.module" : {
+      "executable" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "fileList" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/sources",
+      "importPath" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/Modules",
+      "inputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/APIClient.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/FleetMonitor.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/Models.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/NotificationService.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/Theme.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/Views/FleetMenuView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/Views/ServiceRow.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/main.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/swift-version--58304C5D6DBC2206.txt"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/sources"
+        }
+      ],
+      "isLibrary" : false,
+      "moduleName" : "AXEFleet",
+      "moduleOutputPath" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/Modules/AXEFleet.swiftmodule",
+      "objects" : [
+        "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/APIClient.swift.o",
+        "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/FleetMonitor.swift.o",
+        "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/Models.swift.o",
+        "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/NotificationService.swift.o",
+        "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/Theme.swift.o",
+        "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/FleetMenuView.swift.o",
+        "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/ServiceRow.swift.o",
+        "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/main.swift.o"
+      ],
+      "otherArguments" : [
+        "-target",
+        "arm64-apple-macosx13.0",
+        "-whole-module-optimization",
+        "-num-threads",
+        "10",
+        "-serialize-diagnostics",
+        "-O",
+        "-j10",
+        "-DSWIFT_PACKAGE",
+        "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+        "-module-cache-path",
+        "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/ModuleCache",
+        "-parseable-output",
+        "-Xfrontend",
+        "-entry-point-function-name",
+        "-Xfrontend",
+        "AXEFleet_main",
+        "-swift-version",
+        "5",
+        "-plugin-path",
+        "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+        "-sdk",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk",
+        "-F",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-I",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-L",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+        "-g",
+        "-Xcc",
+        "-isysroot",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk",
+        "-Xcc",
+        "-F",
+        "-Xcc",
+        "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+        "-Xcc",
+        "-fPIC",
+        "-Xcc",
+        "-g",
+        "-package-name",
+        "swift"
+      ],
+      "outputFileMapPath" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/output-file-map.json",
+      "outputs" : [
+        {
+          "kind" : "file",
+          "name" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/APIClient.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/FleetMonitor.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/Models.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/NotificationService.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/Theme.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/FleetMenuView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/ServiceRow.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/main.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/Modules/AXEFleet.swiftmodule"
+        }
+      ],
+      "prepareForIndexing" : false,
+      "sources" : [
+        "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/APIClient.swift",
+        "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/FleetMonitor.swift",
+        "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/Models.swift",
+        "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/NotificationService.swift",
+        "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/Theme.swift",
+        "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/Views/FleetMenuView.swift",
+        "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/Views/ServiceRow.swift",
+        "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/main.swift"
+      ],
+      "tempsPath" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build",
+      "wholeModuleOptimization" : true
+    }
+  },
+  "swiftFrontendCommands" : {
+
+  },
+  "swiftTargetScanArgs" : {
+    "AXEFleet" : [
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc",
+      "-module-name",
+      "AXEFleet",
+      "-package-name",
+      "swift",
+      "-c",
+      "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/APIClient.swift",
+      "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/FleetMonitor.swift",
+      "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/Models.swift",
+      "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/NotificationService.swift",
+      "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/Theme.swift",
+      "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/Views/FleetMenuView.swift",
+      "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/Views/ServiceRow.swift",
+      "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/main.swift",
+      "-I",
+      "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/Modules",
+      "-target",
+      "arm64-apple-macosx13.0",
+      "-whole-module-optimization",
+      "-num-threads",
+      "10",
+      "-serialize-diagnostics",
+      "-O",
+      "-j10",
+      "-DSWIFT_PACKAGE",
+      "-DSWIFT_MODULE_RESOURCE_BUNDLE_UNAVAILABLE",
+      "-module-cache-path",
+      "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/ModuleCache",
+      "-parseable-output",
+      "-Xfrontend",
+      "-entry-point-function-name",
+      "-Xfrontend",
+      "AXEFleet_main",
+      "-swift-version",
+      "5",
+      "-plugin-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing",
+      "-sdk",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk",
+      "-F",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-I",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-L",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/usr/lib",
+      "-g",
+      "-Xcc",
+      "-isysroot",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.4.sdk",
+      "-Xcc",
+      "-F",
+      "-Xcc",
+      "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/Library/Frameworks",
+      "-Xcc",
+      "-fPIC",
+      "-Xcc",
+      "-g",
+      "-package-name",
+      "swift",
+      "-driver-use-frontend-path",
+      "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+    ]
+  },
+  "targetDependencyMap" : {
+    "AXEFleet" : [
+
+    ]
+  },
+  "testDiscoveryCommands" : {
+
+  },
+  "testEntryPointCommands" : {
+
+  },
+  "traitConfiguration" : {
+    "default" : {
+
+    }
+  },
+  "writeCommands" : {
+    "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/sources" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<sources-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/APIClient.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/FleetMonitor.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/Models.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/NotificationService.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/Theme.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/Views/FleetMenuView.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/Views/ServiceRow.swift"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/main.swift"
+        }
+      ],
+      "outputFilePath" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/sources"
+    },
+    "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.product/Objects.LinkFileList" : {
+      "alwaysOutOfDate" : false,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<link-file-list>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/APIClient.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/FleetMenuView.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/FleetMonitor.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/Models.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/NotificationService.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/ServiceRow.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/Theme.swift.o"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/main.swift.o"
+        }
+      ],
+      "outputFilePath" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.product/Objects.LinkFileList"
+    },
+    "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/swift-version--58304C5D6DBC2206.txt" : {
+      "alwaysOutOfDate" : true,
+      "inputs" : [
+        {
+          "kind" : "virtual",
+          "name" : "<swift-get-version>"
+        },
+        {
+          "kind" : "file",
+          "name" : "/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc"
+        }
+      ],
+      "outputFilePath" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/swift-version--58304C5D6DBC2206.txt"
+    }
+  }
+}

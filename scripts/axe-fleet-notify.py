@@ -42,6 +42,17 @@ from dataclasses import dataclass, field, asdict
 from enum import Enum
 from typing import Any, Dict, List, Optional, Tuple
 
+# Local model integration (Carmack Pattern — zero API spend)
+try:
+    sys.path.insert(0, os.path.expanduser("~/Desktop/axiom/axe-runway"))
+    from axe_sdk import route, ensure_server, generate
+    HAS_LOCAL_MODEL = True
+except ImportError:
+    HAS_LOCAL_MODEL = False
+
+# Module-level AI summary engine (initialized in main())
+smart_summary = None
+
 # ─── Constants ────────────────────────────────────────────────
 VERSION = "3.0.0"
 APP_DIR = pathlib.Path(__file__).resolve().parent.parent
@@ -431,6 +442,108 @@ class AnomalyDetector:
         return None
 
 
+# ─── Smart Summary (Local Model Integration) ────────────────
+class SmartSummary:
+    """Fleet state summaries via local LLM. Carmack Pattern: route -> ensure_server -> generate."""
+
+    def __init__(self):
+        self._last_summary: str = ""
+        self._last_generated: float = 0
+        self._cooldown: float = 120
+        self._incident_log: list = []
+        self._max_incidents: int = 10
+        self._lock = threading.Lock()
+
+    def generate_fleet_summary(self, status_data: dict) -> str:
+        now = time.time()
+        if now - self._last_generated < self._cooldown and self._last_summary:
+            return self._last_summary
+
+        if not HAS_LOCAL_MODEL:
+            return self._fallback_summary(status_data)
+
+        try:
+            r = route("general")
+            r = ensure_server(r)
+            prompt = self._build_prompt(status_data)
+            result = generate(r, prompt, max_tokens=150)
+            if result and isinstance(result, str) and len(result.strip()) > 10:
+                with self._lock:
+                    self._last_summary = result.strip()
+                    self._last_generated = now
+                return self._last_summary
+        except Exception as e:
+            log("WARN", f"Local model summary failed: {e}")
+
+        return self._fallback_summary(status_data)
+
+    def generate_incident_summary(self, key: str, name: str,
+                                   prev_state: str, new_state: str,
+                                   category: str):
+        if not HAS_LOCAL_MODEL:
+            return
+
+        try:
+            r = route("general")
+            r = ensure_server(r)
+            prompt = (
+                f"AXE Fleet incident. One sentence analysis, no emojis.\n"
+                f"Target: {name} ({category})\n"
+                f"Change: {prev_state} -> {new_state}\n"
+                f"Analysis:"
+            )
+            result = generate(r, prompt, max_tokens=80)
+            if result and isinstance(result, str) and len(result.strip()) > 5:
+                with self._lock:
+                    self._incident_log.insert(0, {
+                        "target": name,
+                        "change": f"{prev_state} -> {new_state}",
+                        "analysis": result.strip(),
+                        "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat() + "Z"
+                    })
+                    if len(self._incident_log) > self._max_incidents:
+                        self._incident_log = self._incident_log[:self._max_incidents]
+        except Exception as e:
+            log("WARN", f"Local model incident analysis failed: {e}")
+
+    def get_latest(self) -> dict:
+        with self._lock:
+            return {
+                "fleet_summary": self._last_summary or "Awaiting first summary cycle",
+                "last_generated": self._last_generated,
+                "incidents": list(self._incident_log[:5]),
+                "model_available": HAS_LOCAL_MODEL,
+                "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat() + "Z"
+            }
+
+    def _build_prompt(self, status_data: dict) -> str:
+        fleet = status_data.get("fleet", {})
+        web = status_data.get("web", {})
+        wg = status_data.get("wireguard", {})
+        online = sum(1 for v in fleet.values() if v in ("online", "up"))
+        offline = sum(1 for v in fleet.values() if v in ("offline", "down"))
+        web_up = sum(1 for v in web.values() if v in ("online", "up"))
+        web_down = sum(1 for v in web.values() if v in ("offline", "down"))
+        return (
+            f"AXE Fleet status. Two sentences max, no emojis.\n"
+            f"Fleet: {online} online, {offline} offline.\n"
+            f"Web: {web_up} up, {web_down} down.\n"
+            f"WireGuard: {len(wg)} peers.\n"
+            f"Summary:"
+        )
+
+    def _fallback_summary(self, status_data: dict) -> str:
+        fleet = status_data.get("fleet", {})
+        web = status_data.get("web", {})
+        online = sum(1 for v in fleet.values() if v in ("online", "up"))
+        total_f = len(fleet)
+        web_up = sum(1 for v in web.values() if v in ("online", "up"))
+        total_w = len(web)
+        if online == total_f and web_up == total_w:
+            return f"All systems nominal. {online}/{total_f} machines, {web_up}/{total_w} services operational."
+        return f"Degraded state. {online}/{total_f} machines online, {web_up}/{total_w} services up."
+
+
 # ─── Metrics Storage ──────────────────────────────────────────
 class MetricsStore:
     MAX_POINTS = 1000
@@ -611,6 +724,15 @@ class HealthHandler(http.server.BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(body)
         
+        elif self.path == "/summary":
+            body = json.dumps(
+                smart_summary.get_latest() if smart_summary else {"error": "not initialized"}
+            ).encode()
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(body)
+
         else:
             self.send_response(404)
             self.end_headers()
@@ -687,6 +809,14 @@ class FleetMonitor:
         self.events.log_event(key, "transition", prev, new_state, latency,
                               {"tier": tier, "category": category})
         
+        # AI incident analysis (background, non-blocking)
+        if smart_summary:
+            threading.Thread(
+                target=smart_summary.generate_incident_summary,
+                args=(key, name, prev, new_state, category),
+                daemon=True
+            ).start()
+
         # Determine notification parameters
         is_up = new_state in ("online", "up")
         
@@ -1133,6 +1263,14 @@ def main():
     
     log("INFO", f"═══ AXE Fleet Notify v{VERSION} starting ═══")
     
+    # Initialize AI summary engine (Carmack Pattern)
+    global smart_summary
+    smart_summary = SmartSummary()
+    if HAS_LOCAL_MODEL:
+        log("INFO", "[AXE] Local model integration active (Carmack Pattern)")
+    else:
+        log("INFO", "[AXE] Local model unavailable — using fallback summaries")
+
     # Run monitor
     monitor = FleetMonitor(cfg)
     

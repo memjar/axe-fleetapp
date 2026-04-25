@@ -1,0 +1,55 @@
+{
+  "": {
+    "dependencies": "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/AXEFleet.d",
+    "object": "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/AXEFleet.o",
+    "swift-dependencies": "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/primary.swiftdeps"
+  },
+  "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/APIClient.swift": {
+    "object": "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/APIClient.swift.o",
+    "swiftmodule": "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/APIClient~partial.swiftmodule",
+    "swift-dependencies": "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/APIClient.swiftdeps",
+    "diagnostics": "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/APIClient.dia"
+  },
+  "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/FleetMonitor.swift": {
+    "object": "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/FleetMonitor.swift.o",
+    "swiftmodule": "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/FleetMonitor~partial.swiftmodule",
+    "swift-dependencies": "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/FleetMonitor.swiftdeps",
+    "diagnostics": "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/FleetMonitor.dia"
+  },
+  "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/Models.swift": {
+    "object": "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/Models.swift.o",
+    "swiftmodule": "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/Models~partial.swiftmodule",
+    "swift-dependencies": "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/Models.swiftdeps",
+    "diagnostics": "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/Models.dia"
+  },
+  "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/NotificationService.swift": {
+    "object": "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/NotificationService.swift.o",
+    "swiftmodule": "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/NotificationService~partial.swiftmodule",
+    "swift-dependencies": "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/NotificationService.swiftdeps",
+    "diagnostics": "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/NotificationService.dia"
+  },
+  "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/Theme.swift": {
+    "object": "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/Theme.swift.o",
+    "swiftmodule": "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/Theme~partial.swiftmodule",
+    "swift-dependencies": "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/Theme.swiftdeps",
+    "diagnostics": "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/Theme.dia"
+  },
+  "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/Views/FleetMenuView.swift": {
+    "object": "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/FleetMenuView.swift.o",
+    "swiftmodule": "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/FleetMenuView~partial.swiftmodule",
+    "swift-dependencies": "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/FleetMenuView.swiftdeps",
+    "diagnostics": "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/FleetMenuView.dia"
+  },
+  "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/Views/ServiceRow.swift": {
+    "object": "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/ServiceRow.swift.o",
+    "swiftmodule": "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/ServiceRow~partial.swiftmodule",
+    "swift-dependencies": "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/ServiceRow.swiftdeps",
+    "diagnostics": "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/ServiceRow.dia"
+  },
+  "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/Sources/main.swift": {
+    "object": "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/main.swift.o",
+    "swiftmodule": "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/main~partial.swiftmodule",
+    "swift-dependencies": "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/main.swiftdeps",
+    "diagnostics": "/Users/jamielewis/Desktop/axiom/axe-fleetapp/swift/.build/arm64-apple-macosx/release/AXEFleet.build/main.dia"
+  }
+}
