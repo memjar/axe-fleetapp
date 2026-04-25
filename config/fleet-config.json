@@ -1,0 +1,167 @@
+{
+  "version": "1.0.0",
+  "poll_interval_seconds": 30,
+  "notification_cooldown_seconds": 300,
+  "sounds": {
+    "critical_down": "Basso",
+    "critical_up": "Hero",
+    "warning_down": "Purr",
+    "warning_up": "Pop",
+    "info": "Glass"
+  },
+  "fleet": {
+    "jl1_nova": {
+      "name": "JL1 Nova (Mac Studio)",
+      "ip": "192.168.1.169",
+      "mesh_ip": "10.10.0.2",
+      "tier": 1,
+      "ping": true,
+      "services": [
+        { "name": "SSH", "port": 22, "protocol": "tcp" },
+        { "name": "llama-server", "port": 8090, "protocol": "http", "path": "/health" },
+        { "name": "Ollama", "port": 11434, "protocol": "http", "path": "/api/tags" }
+      ]
+    },
+    "jl2_forge": {
+      "name": "JL2 Forge (MacBook Pro)",
+      "ip": "127.0.0.1",
+      "mesh_ip": "10.10.0.3",
+      "tier": 1,
+      "ping": false,
+      "services": [
+        { "name": "llama-server-a", "port": 8081, "protocol": "http", "path": "/health" },
+        { "name": "llama-server-b", "port": 8082, "protocol": "http", "path": "/health" },
+        { "name": "Partner Gateway", "port": 8420, "protocol": "http", "path": "/health" }
+      ]
+    },
+    "jl3_vigil": {
+      "name": "JL3 Vigil (AXE RC)",
+      "ip": "192.168.1.122",
+      "mesh_ip": "10.10.0.4",
+      "tier": 1,
+      "ping": true,
+      "services": [
+        { "name": "SSH", "port": 22, "protocol": "tcp" },
+        { "name": "ops_centre", "port": 8084, "protocol": "http", "path": "/health" },
+        { "name": "chat_centre", "port": 8081, "protocol": "http", "path": "/health" },
+        { "name": "llama-server", "port": 8090, "protocol": "http", "path": "/health" },
+        { "name": "embeddings", "port": 8092, "protocol": "http", "path": "/health" },
+        { "name": "Ollama", "port": 11434, "protocol": "http", "path": "/api/tags" },
+        { "name": "Qdrant", "port": 6333, "protocol": "http", "path": "/collections" }
+      ]
+    },
+    "jla_ghost": {
+      "name": "JLa Ghost (Intel Air)",
+      "ip": "192.168.1.148",
+      "tier": 3,
+      "ping": true,
+      "services": [
+        { "name": "SSH", "port": 22, "protocol": "tcp" }
+      ]
+    },
+    "jlb_reaper": {
+      "name": "JLb Reaper (Intel MBP)",
+      "ip": "192.168.1.28",
+      "tier": 3,
+      "ping": true,
+      "services": [
+        { "name": "SSH", "port": 22, "protocol": "tcp" }
+      ]
+    },
+    "lewis_mbp": {
+      "name": "Lewis MBP (Pending)",
+      "ip": "192.168.1.84",
+      "tier": 3,
+      "ping": true,
+      "services": [
+        { "name": "SSH", "port": 22, "protocol": "tcp" },
+        { "name": "VNC", "port": 5900, "protocol": "tcp" },
+        { "name": "ARD", "port": 3283, "protocol": "tcp" }
+      ]
+    }
+  },
+  "web_services": {
+    "axiom": {
+      "name": "AXIOM",
+      "url": "https://axiom.com.vc",
+      "tier": 1,
+      "expect_status": 200
+    },
+    "observer": {
+      "name": "AXE Observer",
+      "url": "https://axe.observer/api/health",
+      "tier": 1,
+      "expect_status": 200
+    },
+    "authgate": {
+      "name": "AuthGate",
+      "url": "https://authgate.cloud",
+      "tier": 1,
+      "expect_status": 200
+    },
+    "halo": {
+      "name": "Halo Knowledge Graph",
+      "url": "https://halo.axe.observer",
+      "tier": 2,
+      "expect_status": 200
+    },
+    "vault": {
+      "name": "AXE Vault",
+      "url": "https://vault.axe.observer",
+      "tier": 2,
+      "expect_status": 200
+    },
+    "klaus": {
+      "name": "Klaus Chat",
+      "url": "https://klaus.it.com",
+      "tier": 2,
+      "expect_status": 200
+    },
+    "axe_it": {
+      "name": "AXE Command Centre",
+      "url": "https://axe.it.com",
+      "tier": 2,
+      "expect_status": 200
+    },
+    "mcp": {
+      "name": "MCP Skills Hub",
+      "url": "https://mcp.axe.onl",
+      "tier": 2,
+      "expect_status": 200
+    },
+    "meridian": {
+      "name": "Meridian",
+      "url": "https://meridian.icu",
+      "tier": 3,
+      "expect_status": 200
+    }
+  },
+  "wireguard": {
+    "enabled": true,
+    "interface": "utun4",
+    "peers": {
+      "jl1": "10.10.0.2",
+      "jl2": "10.10.0.3",
+      "jl3": "10.10.0.4"
+    }
+  },
+  "droplets": {
+    "axiom_worker1": {
+      "name": "AXIOM Droplet",
+      "ip": "165.227.44.75",
+      "tier": 1,
+      "services": [
+        { "name": "nginx", "port": 443, "protocol": "tcp" },
+        { "name": "PM2 (Next.js)", "port": 3000, "protocol": "http", "path": "/" }
+      ]
+    },
+    "axe_gate": {
+      "name": "AXE Gate",
+      "ip": "24.144.70.129",
+      "tier": 2,
+      "services": [
+        { "name": "nginx", "port": 443, "protocol": "tcp" }
+      ]
+    }
+  }
+}
