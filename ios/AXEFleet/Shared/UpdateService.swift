@@ -106,9 +106,15 @@ class UpdateService: ObservableObject {
     }
 
     func installUpdate() {
-        guard let manifest = manifestURL,
-              let encoded = manifest.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-              let url = URL(string: "itms-services://?action=download-manifest&url=\(encoded)") else { return }
+        guard let manifest = manifestURL else { return }
+        var components = URLComponents()
+        components.scheme = "itms-services"
+        components.host = ""
+        components.queryItems = [
+            URLQueryItem(name: "action", value: "download-manifest"),
+            URLQueryItem(name: "url", value: manifest)
+        ]
+        guard let url = components.url else { return }
         UIApplication.shared.open(url)
     }
 
