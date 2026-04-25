@@ -17,9 +17,23 @@
       "tier": 1,
       "ping": true,
       "services": [
-        { "name": "SSH", "port": 22, "protocol": "tcp" },
-        { "name": "llama-server", "port": 8090, "protocol": "http", "path": "/health" },
-        { "name": "Ollama", "port": 11434, "protocol": "http", "path": "/api/tags" }
+        {
+          "name": "SSH",
+          "port": 22,
+          "protocol": "tcp"
+        },
+        {
+          "name": "llama-server",
+          "port": 8090,
+          "protocol": "http",
+          "path": "/health"
+        },
+        {
+          "name": "Ollama",
+          "port": 11434,
+          "protocol": "http",
+          "path": "/api/tags"
+        }
       ]
     },
     "jl2_forge": {
@@ -29,9 +43,24 @@
       "tier": 1,
       "ping": false,
       "services": [
-        { "name": "llama-server-a", "port": 8081, "protocol": "http", "path": "/health" },
-        { "name": "llama-server-b", "port": 8082, "protocol": "http", "path": "/health" },
-        { "name": "Partner Gateway", "port": 8420, "protocol": "http", "path": "/health" }
+        {
+          "name": "llama-server-a",
+          "port": 8081,
+          "protocol": "http",
+          "path": "/health"
+        },
+        {
+          "name": "llama-server-b",
+          "port": 8082,
+          "protocol": "http",
+          "path": "/health"
+        },
+        {
+          "name": "Partner Gateway",
+          "port": 8420,
+          "protocol": "http",
+          "path": "/health"
+        }
       ]
     },
     "jl3_vigil": {
@@ -41,13 +70,47 @@
       "tier": 1,
       "ping": true,
       "services": [
-        { "name": "SSH", "port": 22, "protocol": "tcp" },
-        { "name": "ops_centre", "port": 8084, "protocol": "http", "path": "/health" },
-        { "name": "chat_centre", "port": 8081, "protocol": "http", "path": "/health" },
-        { "name": "llama-server", "port": 8090, "protocol": "http", "path": "/health" },
-        { "name": "embeddings", "port": 8092, "protocol": "http", "path": "/health" },
-        { "name": "Ollama", "port": 11434, "protocol": "http", "path": "/api/tags" },
-        { "name": "Qdrant", "port": 6333, "protocol": "http", "path": "/collections" }
+        {
+          "name": "SSH",
+          "port": 22,
+          "protocol": "tcp"
+        },
+        {
+          "name": "ops_centre",
+          "port": 8084,
+          "protocol": "http",
+          "path": "/health"
+        },
+        {
+          "name": "chat_centre",
+          "port": 8081,
+          "protocol": "http",
+          "path": "/health"
+        },
+        {
+          "name": "llama-server",
+          "port": 8090,
+          "protocol": "http",
+          "path": "/health"
+        },
+        {
+          "name": "embeddings",
+          "port": 8092,
+          "protocol": "http",
+          "path": "/health"
+        },
+        {
+          "name": "Ollama",
+          "port": 11434,
+          "protocol": "http",
+          "path": "/api/tags"
+        },
+        {
+          "name": "Qdrant",
+          "port": 6333,
+          "protocol": "http",
+          "path": "/collections"
+        }
       ]
     },
     "jla_ghost": {
@@ -56,7 +119,11 @@
       "tier": 3,
       "ping": true,
       "services": [
-        { "name": "SSH", "port": 22, "protocol": "tcp" }
+        {
+          "name": "SSH",
+          "port": 22,
+          "protocol": "tcp"
+        }
       ]
     },
     "jlb_reaper": {
@@ -65,7 +132,11 @@
       "tier": 3,
       "ping": true,
       "services": [
-        { "name": "SSH", "port": 22, "protocol": "tcp" }
+        {
+          "name": "SSH",
+          "port": 22,
+          "protocol": "tcp"
+        }
       ]
     },
     "lewis_mbp": {
@@ -74,9 +145,21 @@
       "tier": 3,
       "ping": true,
       "services": [
-        { "name": "SSH", "port": 22, "protocol": "tcp" },
-        { "name": "VNC", "port": 5900, "protocol": "tcp" },
-        { "name": "ARD", "port": 3283, "protocol": "tcp" }
+        {
+          "name": "SSH",
+          "port": 22,
+          "protocol": "tcp"
+        },
+        {
+          "name": "VNC",
+          "port": 5900,
+          "protocol": "tcp"
+        },
+        {
+          "name": "ARD",
+          "port": 3283,
+          "protocol": "tcp"
+        }
       ]
     }
   },
@@ -151,8 +234,17 @@
       "ip": "165.227.44.75",
       "tier": 1,
       "services": [
-        { "name": "nginx", "port": 443, "protocol": "tcp" },
-        { "name": "PM2 (Next.js)", "port": 3000, "protocol": "http", "path": "/" }
+        {
+          "name": "nginx",
+          "port": 443,
+          "protocol": "tcp"
+        },
+        {
+          "name": "PM2 (Next.js)",
+          "port": 3000,
+          "protocol": "http",
+          "path": "/"
+        }
       ]
     },
     "axe_gate": {
@@ -160,8 +252,41 @@
       "ip": "24.144.70.129",
       "tier": 2,
       "services": [
-        { "name": "nginx", "port": 443, "protocol": "tcp" }
+        {
+          "name": "nginx",
+          "port": 443,
+          "protocol": "tcp"
+        }
       ]
+    }
+  },
+  "ntfy": {
+    "enabled": true,
+    "server": "https://ntfy.sh",
+    "topic": "axe-fleet-sovereign",
+    "priority_map": {
+      "critical_down": 5,
+      "critical_up": 3,
+      "warning_down": 3,
+      "warning_up": 2,
+      "info": 2,
+      "flapping": 4,
+      "anomaly": 4,
+      "daily_summary": 1
+    },
+    "tags_map": {
+      "critical_down": "rotating_light,skull",
+      "critical_up": "white_check_mark,rocket",
+      "warning_down": "warning",
+      "warning_up": "thumbsup",
+      "flapping": "cyclone",
+      "anomaly": "chart_with_upwards_trend",
+      "daily_summary": "clipboard"
+    },
+    "quiet_hours": {
+      "enabled": false,
+      "start": "23:00",
+      "end": "07:00"
     }
   }
 }

@@ -96,6 +96,56 @@ report_to_observer() {
         &>/dev/null || true) &
 }
 
+
+# ─── ntfy Push (iPhone/Android/Desktop) ──────────────────────
+push_ntfy() {
+    local title="$1"
+    local message="$2"
+    local priority="${3:-3}"
+    local tags="${4:-axe}"
+    local event_type="${5:-info}"
+
+    # Check if ntfy is enabled
+    local ntfy_enabled
+    ntfy_enabled=$(parse_json "print(cfg.get('ntfy', {}).get('enabled', False))")
+    if [[ "$ntfy_enabled" != "True" ]]; then
+        return 0
+    fi
+
+    local ntfy_server
+    ntfy_server=$(parse_json "print(cfg.get('ntfy', {}).get('server', 'https://ntfy.sh'))")
+    local ntfy_topic
+    ntfy_topic=$(parse_json "print(cfg.get('ntfy', {}).get('topic', 'axe-fleet'))")
+
+    # Check quiet hours
+    local quiet_enabled
+    quiet_enabled=$(parse_json "print(cfg.get('ntfy', {}).get('quiet_hours', {}).get('enabled', False))")
+    if [[ "$quiet_enabled" == "True" ]]; then
+        local current_hour=$(date +%H)
+        local quiet_start
+        quiet_start=$(parse_json "print(cfg.get('ntfy', {}).get('quiet_hours', {}).get('start', '23:00').split(':')[0])")
+        local quiet_end
+        quiet_end=$(parse_json "print(cfg.get('ntfy', {}).get('quiet_hours', {}).get('end', '07:00').split(':')[0])")
+        if [[ "$current_hour" -ge "$quiet_start" || "$current_hour" -lt "$quiet_end" ]]; then
+            # During quiet hours, only push priority 5 (critical)
+            if [[ "$priority" -lt 5 ]]; then
+                return 0
+            fi
+        fi
+    fi
+
+    # Fire and forget
+    (curl -s -X POST "${ntfy_server}/${ntfy_topic}" \
+        -H "Title: ${title}" \
+        -H "Priority: ${priority}" \
+        -H "Tags: ${tags}" \
+        -d "${message}" \
+        --connect-timeout 5 --max-time 10 \
+        &>/dev/null || true) &
+
+    log "NTFY" "[P${priority}] ${title} — ${message}"
+}
+
 # ─── Flap Detection ──────────────────────────────────────────
 record_flap() {
     local key="$1"
@@ -174,6 +224,22 @@ notify() {
     fi
 
     log "NOTIFY" "[$sound] $title — $message"
+
+    # Push to ntfy for iPhone/mobile notifications
+    local ntfy_priority=3
+    local ntfy_tags="axe"
+    if [[ "$sound" == "Basso" ]]; then
+        ntfy_priority=5; ntfy_tags="rotating_light,skull"
+    elif [[ "$sound" == "Hero" ]]; then
+        ntfy_priority=3; ntfy_tags="white_check_mark,rocket"
+    elif [[ "$sound" == "Purr" ]]; then
+        ntfy_priority=3; ntfy_tags="warning"
+    elif [[ "$sound" == "Submarine" ]]; then
+        ntfy_priority=4; ntfy_tags="cyclone"
+    elif [[ "$sound" == "Pop" ]]; then
+        ntfy_priority=2; ntfy_tags="thumbsup"
+    fi
+    push_ntfy "$title" "$message" "$ntfy_priority" "$ntfy_tags"
 }
 
 # ─── State Management ─────────────────────────────────────────
