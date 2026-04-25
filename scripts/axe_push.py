@@ -61,14 +61,50 @@ def log(msg: str) -> None:
         f.write(entry + "\n")
 
 
-def osascript_notify(title: str, message: str, sound: str = "Glass") -> bool:
-    """Fire a native macOS notification via osascript."""
+def osascript_notify(title: str, message: str, sound: str = "Glass",
+                     subtitle: str = "") -> bool:
+    """
+    Fire a native macOS notification via osascript + UNUserNotificationCenter.
+
+    Uses the modern UserNotifications framework when PyObjC is available —
+    this respects macOS Focus modes, Scheduled Summary, and notification grouping.
+    Falls back to legacy osascript display notification if needed.
+    """
+    # ── Attempt 1: UserNotifications framework (modern, Focus-aware) ──────────
     try:
-        script = f'display notification "{message}" with title "{title}" sound name "{sound}"'
-        result = subprocess.run(
-            ["osascript", "-e", script],
-            capture_output=True, timeout=5
+        import objc
+        from Foundation import NSBundle, NSURL
+        UNFramework = "/System/Library/Frameworks/UserNotifications.framework"
+        objc.loadBundle("UserNotifications", bundle_path=UNFramework, module_globals=globals())
+        from UserNotifications import (  # type: ignore
+            UNUserNotificationCenter, UNMutableNotificationContent,
+            UNNotificationRequest, UNAuthorizationOptionAlert,
+            UNAuthorizationOptionSound, UNAuthorizationOptionBadge,
         )
+        import uuid as _uuid
+
+        center  = UNUserNotificationCenter.currentNotificationCenter()
+        content = UNMutableNotificationContent.alloc().init()
+        content.setTitle_(title)
+        content.setBody_(message)
+        if subtitle:
+            content.setSubtitle_(subtitle)
+        content.setSound_(None)  # macOS handles sound via Focus mode settings
+
+        req_id  = str(_uuid.uuid4())
+        request = UNNotificationRequest.requestWithIdentifier_content_trigger_(
+            req_id, content, None
+        )
+        center.addNotificationRequest_withCompletionHandler_(request, None)
+        return True
+    except Exception:
+        pass  # Fall through to osascript
+
+    # ── Attempt 2: osascript (legacy, always works) ───────────────────────────
+    try:
+        sub_part = f' subtitle "{subtitle}"' if subtitle else ""
+        script   = f'display notification "{message}" with title "{title}"{sub_part} sound name "{sound}"'
+        result   = subprocess.run(["osascript", "-e", script], capture_output=True, timeout=5)
         return result.returncode == 0
     except Exception as e:
         log(f"osascript error: {e}")
