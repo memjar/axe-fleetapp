@@ -647,7 +647,7 @@ if [[ "${1:-}" == "status" ]]; then
     echo ""
     echo "Events (last 24h):"
     if [[ -f "$EVENTS_LOG" ]]; then
-        local today=$(date +%Y-%m-%d)
+        today=$(date +%Y-%m-%d)
         grep "$today" "$EVENTS_LOG" 2>/dev/null | wc -l | xargs -I{} echo "  {} events today"
         echo "  Last 5:"
         tail -5 "$EVENTS_LOG" | python3 -c "
