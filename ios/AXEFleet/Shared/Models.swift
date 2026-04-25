@@ -185,7 +185,7 @@ enum ConnectionState: Sendable {
 
 struct SummaryResponse: Codable, Sendable {
     let fleetSummary: String
-    let lastGenerated: String?
+    let lastGenerated: Int?
     let incidents: [IncidentEntry]
     let modelAvailable: Bool
     let timestamp: String
