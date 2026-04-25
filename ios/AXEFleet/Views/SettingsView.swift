@@ -1,11 +1,10 @@
 // AXE Fleet Monitor — Settings (iOS)
-// Daemon connection config, notification prefs, about section.
+// Server connection config, notification prefs, about section.
 
 import SwiftUI
 
 struct SettingsView: View {
-    @AppStorage("daemon_host") private var daemonHost = "192.168.1.149"
-    @AppStorage("daemon_port") private var daemonPort = 9999
+    @AppStorage("server_url") private var serverURL = "https://axiom.com.vc/api/fleet"
     @AppStorage("notifications_enabled") private var notificationsEnabled = true
     @AppStorage("poll_interval") private var pollInterval = 15
     @State private var connectionTestResult: String?
@@ -42,41 +41,26 @@ struct SettingsView: View {
 
     private var connectionSection: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("DAEMON CONNECTION")
+            Text("SERVER CONNECTION")
                 .font(AXETheme.headlineFont)
                 .foregroundColor(AXETheme.gold)
 
             VStack(spacing: 8) {
                 HStack {
-                    Text("Host")
+                    Text("Server URL")
                         .font(AXETheme.bodyFont)
                         .foregroundColor(AXETheme.textSecondary)
                     Spacer()
-                    TextField("192.168.1.149", text: $daemonHost)
-                        .font(AXETheme.bodyFont)
-                        .foregroundColor(AXETheme.textPrimary)
-                        .multilineTextAlignment(.trailing)
-                        .keyboardType(.decimalPad)
-                        .autocorrectionDisabled()
                 }
-                .padding(12)
-                .background(AXETheme.surfaceElevated)
-                .cornerRadius(8)
-
-                HStack {
-                    Text("Port")
-                        .font(AXETheme.bodyFont)
-                        .foregroundColor(AXETheme.textSecondary)
-                    Spacer()
-                    TextField("9999", value: $daemonPort, format: .number)
-                        .font(AXETheme.bodyFont)
-                        .foregroundColor(AXETheme.textPrimary)
-                        .multilineTextAlignment(.trailing)
-                        .keyboardType(.numberPad)
-                }
-                .padding(12)
-                .background(AXETheme.surfaceElevated)
-                .cornerRadius(8)
+                TextField("https://axiom.com.vc/api/fleet", text: $serverURL)
+                    .font(.system(size: 12, design: .monospaced))
+                    .foregroundColor(AXETheme.textPrimary)
+                    .autocorrectionDisabled()
+                    .textInputAutocapitalization(.never)
+                    .keyboardType(.URL)
+                    .padding(12)
+                    .background(AXETheme.surfaceElevated)
+                    .cornerRadius(8)
             }
 
             Button(action: testConnection) {
@@ -163,8 +147,8 @@ struct SettingsView: View {
 
             VStack(spacing: 8) {
                 aboutRow("Version", value: "1.0.0")
-                aboutRow("Daemon", value: "v3.0.0")
-                aboutRow("Architecture", value: "Carmack Pattern")
+                aboutRow("Backend", value: "axiom.com.vc")
+                aboutRow("Architecture", value: "Cloud Native")
                 aboutRow("API Spend", value: "$0 — sovereign")
             }
 
@@ -208,13 +192,13 @@ struct SettingsView: View {
         isTesting = true
         connectionTestResult = nil
         Task {
-            await APIClient.shared.updateHost(daemonHost, port: daemonPort)
+            await APIClient.shared.updateServer(url: serverURL)
             let reachable = await APIClient.shared.isDaemonReachable()
             await MainActor.run {
                 isTesting = false
                 connectionTestResult = reachable
-                    ? "[+] Connected to daemon at \(daemonHost):\(daemonPort)"
-                    : "[-] Cannot reach daemon at \(daemonHost):\(daemonPort)"
+                    ? "[+] Connected to \(serverURL)"
+                    : "[-] Cannot reach \(serverURL)"
             }
         }
     }
