@@ -1,0 +1,129 @@
+{
+  "" : {
+    "diagnostics" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/AXEFleet-primary.dia",
+    "emit-module-dependencies" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/AXEFleet-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/AXEFleet-primary-emit-module.dia",
+    "pch" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/AXEFleet-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/AXEFleet-primary.swiftdeps"
+  },
+  "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/AXEFleet/App/AXEFleetApp.swift" : {
+    "const-values" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/AXEFleetApp.swiftconstvalues",
+    "dependencies" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/AXEFleetApp.d",
+    "diagnostics" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/AXEFleetApp.dia",
+    "index-unit-output-path" : "/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/AXEFleetApp.o",
+    "llvm-bc" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/AXEFleetApp.bc",
+    "object" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/AXEFleetApp.o",
+    "swift-dependencies" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/AXEFleetApp.swiftdeps",
+    "swiftmodule" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/AXEFleetApp~partial.swiftmodule"
+  },
+  "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/AXEFleet/Shared/APIClient.swift" : {
+    "const-values" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/APIClient.swiftconstvalues",
+    "dependencies" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/APIClient.d",
+    "diagnostics" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/APIClient.dia",
+    "index-unit-output-path" : "/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/APIClient.o",
+    "llvm-bc" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/APIClient.bc",
+    "object" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/APIClient.o",
+    "swift-dependencies" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/APIClient.swiftdeps",
+    "swiftmodule" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/APIClient~partial.swiftmodule"
+  },
+  "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/AXEFleet/Shared/FleetMonitor.swift" : {
+    "const-values" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/FleetMonitor.swiftconstvalues",
+    "dependencies" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/FleetMonitor.d",
+    "diagnostics" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/FleetMonitor.dia",
+    "index-unit-output-path" : "/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/FleetMonitor.o",
+    "llvm-bc" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/FleetMonitor.bc",
+    "object" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/FleetMonitor.o",
+    "swift-dependencies" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/FleetMonitor.swiftdeps",
+    "swiftmodule" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/FleetMonitor~partial.swiftmodule"
+  },
+  "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/AXEFleet/Shared/Models.swift" : {
+    "const-values" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/Models.swiftconstvalues",
+    "dependencies" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/Models.d",
+    "diagnostics" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/Models.dia",
+    "index-unit-output-path" : "/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/Models.o",
+    "llvm-bc" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/Models.bc",
+    "object" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/Models.o",
+    "swift-dependencies" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/Models.swiftdeps",
+    "swiftmodule" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/Models~partial.swiftmodule"
+  },
+  "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/AXEFleet/Shared/NotificationService.swift" : {
+    "const-values" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/NotificationService.swiftconstvalues",
+    "dependencies" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/NotificationService.d",
+    "diagnostics" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/NotificationService.dia",
+    "index-unit-output-path" : "/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/NotificationService.o",
+    "llvm-bc" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/NotificationService.bc",
+    "object" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/NotificationService.o",
+    "swift-dependencies" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/NotificationService.swiftdeps",
+    "swiftmodule" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/NotificationService~partial.swiftmodule"
+  },
+  "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/AXEFleet/Shared/Theme.swift" : {
+    "const-values" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/Theme.swiftconstvalues",
+    "dependencies" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/Theme.d",
+    "diagnostics" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/Theme.dia",
+    "index-unit-output-path" : "/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/Theme.o",
+    "llvm-bc" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/Theme.bc",
+    "object" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/Theme.o",
+    "swift-dependencies" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/Theme.swiftdeps",
+    "swiftmodule" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/Theme~partial.swiftmodule"
+  },
+  "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/AXEFleet/Views/AIInsightsView.swift" : {
+    "const-values" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/AIInsightsView.swiftconstvalues",
+    "dependencies" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/AIInsightsView.d",
+    "diagnostics" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/AIInsightsView.dia",
+    "index-unit-output-path" : "/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/AIInsightsView.o",
+    "llvm-bc" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/AIInsightsView.bc",
+    "object" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/AIInsightsView.o",
+    "swift-dependencies" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/AIInsightsView.swiftdeps",
+    "swiftmodule" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/AIInsightsView~partial.swiftmodule"
+  },
+  "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/AXEFleet/Views/ContentView.swift" : {
+    "const-values" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/ContentView.swiftconstvalues",
+    "dependencies" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/ContentView.d",
+    "diagnostics" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/ContentView.dia",
+    "index-unit-output-path" : "/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/ContentView.o",
+    "llvm-bc" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/ContentView.bc",
+    "object" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/ContentView.o",
+    "swift-dependencies" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/ContentView.swiftdeps",
+    "swiftmodule" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/ContentView~partial.swiftmodule"
+  },
+  "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/AXEFleet/Views/DashboardView.swift" : {
+    "const-values" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/DashboardView.swiftconstvalues",
+    "dependencies" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/DashboardView.d",
+    "diagnostics" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/DashboardView.dia",
+    "index-unit-output-path" : "/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/DashboardView.o",
+    "llvm-bc" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/DashboardView.bc",
+    "object" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/DashboardView.o",
+    "swift-dependencies" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/DashboardView.swiftdeps",
+    "swiftmodule" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/DashboardView~partial.swiftmodule"
+  },
+  "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/AXEFleet/Views/EventsView.swift" : {
+    "const-values" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/EventsView.swiftconstvalues",
+    "dependencies" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/EventsView.d",
+    "diagnostics" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/EventsView.dia",
+    "index-unit-output-path" : "/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/EventsView.o",
+    "llvm-bc" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/EventsView.bc",
+    "object" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/EventsView.o",
+    "swift-dependencies" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/EventsView.swiftdeps",
+    "swiftmodule" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/EventsView~partial.swiftmodule"
+  },
+  "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/AXEFleet/Views/SettingsView.swift" : {
+    "const-values" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/SettingsView.swiftconstvalues",
+    "dependencies" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/SettingsView.d",
+    "diagnostics" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/SettingsView.dia",
+    "index-unit-output-path" : "/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/SettingsView.o",
+    "llvm-bc" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/SettingsView.bc",
+    "object" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/SettingsView.o",
+    "swift-dependencies" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/SettingsView.swiftdeps",
+    "swiftmodule" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/SettingsView~partial.swiftmodule"
+  },
+  "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "const-values" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftconstvalues",
+    "dependencies" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/GeneratedAssetSymbols.d",
+    "diagnostics" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/GeneratedAssetSymbols.dia",
+    "index-unit-output-path" : "/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "llvm-bc" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/GeneratedAssetSymbols.bc",
+    "object" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "swift-dependencies" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftdeps",
+    "swiftmodule" : "/Users/jamielewis/Desktop/axiom/axe-fleetapp/ios/build/AXEFleet.build/Debug-iphoneos/AXEFleet.build/Objects-normal/arm64/GeneratedAssetSymbols~partial.swiftmodule"
+  }
+}

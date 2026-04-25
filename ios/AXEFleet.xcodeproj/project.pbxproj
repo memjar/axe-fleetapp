@@ -1,0 +1,401 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		17C2ACA039ABBACE9F951708 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 002036C405CF372411F6AF5C /* ContentView.swift */; };
+		1AB3F3A573CA78B3207CBE08 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE42708642374521D38BB1D /* Models.swift */; };
+		26B00641E5CB7B6566E59A9B /* EventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F988A051A6C63CF87340B8DE /* EventsView.swift */; };
+		4704D9D91F2422085F08726F /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662A14E53E0A14D393683DC2 /* DashboardView.swift */; };
+		4D05EC95FC27F70DEEFD0B04 /* AIInsightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16C7E68CCCF9D765B06C78A /* AIInsightsView.swift */; };
+		747F9180BC98B41BB02E04C4 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A377AAEE635D7C0D8A9A85F2 /* APIClient.swift */; };
+		8786A690740FDDBD9E634E28 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5015DFFA986A747B0B2D568 /* SettingsView.swift */; };
+		888BC67FA7CE5ED2F2CAD321 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCD3D589E6005C8219692478 /* Assets.xcassets */; };
+		8992C6A1406D8DB3BB1CABE6 /* FleetMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF748FA18E2D4644F71F63A /* FleetMonitor.swift */; };
+		9DA987B1E59BAB7D4A1957C7 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A9C13D5A712618BE0A31B9 /* NotificationService.swift */; };
+		A955C2548115EE34FBA24CB1 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3A728F4F6308431431FA79 /* Theme.swift */; };
+		BA786876015CA1F19F80BCF7 /* AXEFleetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD12D4F4F9E7C6865B297A2 /* AXEFleetApp.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		002036C405CF372411F6AF5C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		1DE42708642374521D38BB1D /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		48FE887C0563B171DC941C47 /* AXEFleet.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AXEFleet.entitlements; sourceTree = "<group>"; };
+		5C3A728F4F6308431431FA79 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		662A14E53E0A14D393683DC2 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		81D1F38096ADC7A97821724E /* AXEFleet.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = AXEFleet.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9AF748FA18E2D4644F71F63A /* FleetMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FleetMonitor.swift; sourceTree = "<group>"; };
+		A377AAEE635D7C0D8A9A85F2 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		BBD12D4F4F9E7C6865B297A2 /* AXEFleetApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AXEFleetApp.swift; sourceTree = "<group>"; };
+		C925DD3180C9D2049FA6CE5F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		D16C7E68CCCF9D765B06C78A /* AIInsightsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIInsightsView.swift; sourceTree = "<group>"; };
+		E5A9C13D5A712618BE0A31B9 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		F5015DFFA986A747B0B2D568 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		F988A051A6C63CF87340B8DE /* EventsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsView.swift; sourceTree = "<group>"; };
+		FCD3D589E6005C8219692478 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		2D49970B7DE025E8C467457A /* App */ = {
+			isa = PBXGroup;
+			children = (
+				BBD12D4F4F9E7C6865B297A2 /* AXEFleetApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		53010372124037A33E52776A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				81D1F38096ADC7A97821724E /* AXEFleet.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		61EC5E92385199FBBA4E5DC6 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		7F84FDF440200D068F1C96E0 /* AXEFleet */ = {
+			isa = PBXGroup;
+			children = (
+				2D49970B7DE025E8C467457A /* App */,
+				D84BEE9B93390AB9DB425C57 /* Resources */,
+				61EC5E92385199FBBA4E5DC6 /* Services */,
+				9141EE4E4363F44C7041A187 /* Shared */,
+				FC5F3A52DF46AD0176F2C05E /* Views */,
+				48FE887C0563B171DC941C47 /* AXEFleet.entitlements */,
+			);
+			path = AXEFleet;
+			sourceTree = "<group>";
+		};
+		9141EE4E4363F44C7041A187 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				A377AAEE635D7C0D8A9A85F2 /* APIClient.swift */,
+				9AF748FA18E2D4644F71F63A /* FleetMonitor.swift */,
+				1DE42708642374521D38BB1D /* Models.swift */,
+				E5A9C13D5A712618BE0A31B9 /* NotificationService.swift */,
+				5C3A728F4F6308431431FA79 /* Theme.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		93F81A2D6552DDCCF029B940 = {
+			isa = PBXGroup;
+			children = (
+				7F84FDF440200D068F1C96E0 /* AXEFleet */,
+				53010372124037A33E52776A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D84BEE9B93390AB9DB425C57 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				FCD3D589E6005C8219692478 /* Assets.xcassets */,
+				C925DD3180C9D2049FA6CE5F /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		FC5F3A52DF46AD0176F2C05E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D16C7E68CCCF9D765B06C78A /* AIInsightsView.swift */,
+				002036C405CF372411F6AF5C /* ContentView.swift */,
+				662A14E53E0A14D393683DC2 /* DashboardView.swift */,
+				F988A051A6C63CF87340B8DE /* EventsView.swift */,
+				F5015DFFA986A747B0B2D568 /* SettingsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C0AA7E5A5102E6C811E4AFAE /* AXEFleet */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 28ABCA535E00040FDE352676 /* Build configuration list for PBXNativeTarget "AXEFleet" */;
+			buildPhases = (
+				EB45C7F74164F9CD172258E1 /* Sources */,
+				D77B304C1B08E86044130196 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AXEFleet;
+			packageProductDependencies = (
+			);
+			productName = AXEFleet;
+			productReference = 81D1F38096ADC7A97821724E /* AXEFleet.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		57AD484339526440C4B17D42 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					C0AA7E5A5102E6C811E4AFAE = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 01D1C6C1F244EA3E5618EE1D /* Build configuration list for PBXProject "AXEFleet" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 93F81A2D6552DDCCF029B940;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 53010372124037A33E52776A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C0AA7E5A5102E6C811E4AFAE /* AXEFleet */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D77B304C1B08E86044130196 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				888BC67FA7CE5ED2F2CAD321 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EB45C7F74164F9CD172258E1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4D05EC95FC27F70DEEFD0B04 /* AIInsightsView.swift in Sources */,
+				747F9180BC98B41BB02E04C4 /* APIClient.swift in Sources */,
+				BA786876015CA1F19F80BCF7 /* AXEFleetApp.swift in Sources */,
+				17C2ACA039ABBACE9F951708 /* ContentView.swift in Sources */,
+				4704D9D91F2422085F08726F /* DashboardView.swift in Sources */,
+				26B00641E5CB7B6566E59A9B /* EventsView.swift in Sources */,
+				8992C6A1406D8DB3BB1CABE6 /* FleetMonitor.swift in Sources */,
+				1AB3F3A573CA78B3207CBE08 /* Models.swift in Sources */,
+				9DA987B1E59BAB7D4A1957C7 /* NotificationService.swift in Sources */,
+				8786A690740FDDBD9E634E28 /* SettingsView.swift in Sources */,
+				A955C2548115EE34FBA24CB1 /* Theme.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		0F9090B2048455A9E89EE8A1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		32D528988F2C8C543966B55D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+		346F423CA048243C1276781E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = AXEFleet/AXEFleet.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = AXEFleet/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.axe.fleet-monitor";
+				SDKROOT = iphoneos;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		F42751F125AE453D5366D868 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = AXEFleet/AXEFleet.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = AXEFleet/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.axe.fleet-monitor";
+				SDKROOT = iphoneos;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		01D1C6C1F244EA3E5618EE1D /* Build configuration list for PBXProject "AXEFleet" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0F9090B2048455A9E89EE8A1 /* Debug */,
+				32D528988F2C8C543966B55D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		28ABCA535E00040FDE352676 /* Build configuration list for PBXNativeTarget "AXEFleet" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F42751F125AE453D5366D868 /* Debug */,
+				346F423CA048243C1276781E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 57AD484339526440C4B17D42 /* Project object */;
+}
