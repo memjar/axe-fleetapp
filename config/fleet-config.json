@@ -275,13 +275,13 @@
       "daily_summary": 1
     },
     "tags_map": {
-      "critical_down": "rotating_light,skull",
-      "critical_up": "white_check_mark,rocket",
-      "warning_down": "warning",
-      "warning_up": "thumbsup",
-      "flapping": "cyclone",
+      "critical_down": "critical,down",
+      "critical_up": "ok,recovery",
+      "warning_down": "alert",
+      "warning_up": "ok",
+      "flapping": "flapping",
       "anomaly": "chart_with_upwards_trend",
-      "daily_summary": "clipboard"
+      "daily_summary": "summary"
     },
     "quiet_hours": {
       "enabled": false,

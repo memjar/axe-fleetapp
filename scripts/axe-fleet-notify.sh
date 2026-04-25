@@ -220,7 +220,7 @@ notify() {
     # Report to axe.observer data tower
     if [[ "$report" == "true" ]]; then
         local clean_msg=$(echo "$message" | sed 's/"/\\"/g')
-        report_to_observer "🪓 ${title}: ${clean_msg}"
+        report_to_observer "[AXE] ${title}: ${clean_msg}"
     fi
 
     log "NOTIFY" "[$sound] $title — $message"
@@ -229,15 +229,15 @@ notify() {
     local ntfy_priority=3
     local ntfy_tags="axe"
     if [[ "$sound" == "Basso" ]]; then
-        ntfy_priority=5; ntfy_tags="rotating_light,skull"
+        ntfy_priority=5; ntfy_tags="critical,down"
     elif [[ "$sound" == "Hero" ]]; then
-        ntfy_priority=3; ntfy_tags="white_check_mark,rocket"
+        ntfy_priority=3; ntfy_tags="ok,recovery"
     elif [[ "$sound" == "Purr" ]]; then
-        ntfy_priority=3; ntfy_tags="warning"
+        ntfy_priority=3; ntfy_tags="alert"
     elif [[ "$sound" == "Submarine" ]]; then
-        ntfy_priority=4; ntfy_tags="cyclone"
+        ntfy_priority=4; ntfy_tags="flapping"
     elif [[ "$sound" == "Pop" ]]; then
-        ntfy_priority=2; ntfy_tags="thumbsup"
+        ntfy_priority=2; ntfy_tags="ok"
     fi
     push_ntfy "$title" "$message" "$ntfy_priority" "$ntfy_tags"
 }
@@ -360,7 +360,7 @@ if stdev > 0 and current > mean + (3 * stdev) and current > 100:
     print(f'ANOMALY: {current:.0f}ms is {zscore:.1f}σ above mean {mean:.0f}ms')
 " 2>/dev/null | while read -r anomaly_msg; do
         if [[ -n "$anomaly_msg" ]]; then
-            notify "📊 AXE Anomaly" "${key}: ${anomaly_msg}" "Purr" "anomaly_${key}" "true"
+            notify "[!] AXE Anomaly" "${key}: ${anomaly_msg}" "Purr" "anomaly_${key}" "true"
             log_event "$key" "anomaly" "normal" "anomalous" "$current_ms" "{\"message\":\"$anomaly_msg\"}"
         fi
     done
@@ -392,7 +392,7 @@ handle_transition() {
 
     if [[ "$flapping" == "true" ]]; then
         # Suppress individual alerts, send flapping warning instead
-        notify "🔄 FLAPPING" "${name} — ${flap_count} state changes in 5min (suppressed)" "Submarine" "flap_${key}" "true"
+        notify "[~] FLAPPING" "${name} — ${flap_count} state changes in 5min (suppressed)" "Submarine" "flap_${key}" "true"
         log_event "$key" "flapping" "$prev" "$new_state" "$latency" "{\"flap_count\":$flap_count,\"tier\":$tier}"
         return 0
     fi
@@ -403,16 +403,16 @@ handle_transition() {
     if [[ "$new_state" == "online" || "$new_state" == "up" ]]; then
         local sound="Pop"
         [[ "$tier" -le 1 ]] && sound="Hero"
-        local icon="✅"
-        [[ "$category" == "web" ]] && icon="🌐"
-        [[ "$category" == "droplet" ]] && icon="☁️"
-        [[ "$category" == "wireguard" ]] && icon="🔒"
+        local icon="[+]"
+        [[ "$category" == "web" ]] && icon="[WEB]"
+        [[ "$category" == "droplet" ]] && icon="[CLOUD]"
+        [[ "$category" == "wireguard" ]] && icon="[WG+]"
         notify "${icon} AXE ${category^}" "${name} is UP" "$sound" "${key}" "true"
     else
         local sound="Purr"
         [[ "$tier" -le 1 ]] && sound="Basso"
-        local icon="🔴"
-        [[ "$category" == "wireguard" ]] && icon="🔓"
+        local icon="[-]"
+        [[ "$category" == "wireguard" ]] && icon="[WG-]"
         notify "${icon} AXE ${category^}" "${name} is DOWN" "$sound" "${key}" "true"
     fi
 }
@@ -635,7 +635,7 @@ check_daily_summary() {
 
     local summary="Daily: ${online} machines online, ${offline} offline | ${services_up} services up, ${services_down} down | ${web_up} web up, ${web_down} down"
 
-    notify "📊 AXE Daily Summary" "$summary" "Glass" "daily_summary" "true"
+    notify "[!] AXE Daily Summary" "$summary" "Glass" "daily_summary" "true"
     log_event "system" "daily_summary" "none" "none" "0" "{\"machines_online\":$online,\"machines_offline\":$offline,\"services_up\":$services_up,\"services_down\":$services_down,\"web_up\":$web_up,\"web_down\":$web_down}"
 }
 
@@ -649,10 +649,10 @@ if [[ "${1:-}" == "status" ]]; then
         key=$(basename "$f" | sed 's/fleet_//;s/_ping//')
         status=$(cat "$f")
         flap_count=$(get_flap_count "fleet_${key}_ping")
-        icon="🔴"
-        [[ "$status" == "online" ]] && icon="✅"
+        icon="[-]"
+        [[ "$status" == "online" ]] && icon="[+]"
         extra=""
-        [[ "$flap_count" -ge "$FLAP_THRESHOLD" ]] && extra=" ⚠️ FLAPPING (${flap_count}x)"
+        [[ "$flap_count" -ge "$FLAP_THRESHOLD" ]] && extra=" [!] FLAPPING (${flap_count}x)"
         echo "  $icon $key: $status${extra}"
 
         # Show services for this machine
@@ -660,8 +660,8 @@ if [[ "${1:-}" == "status" ]]; then
             [[ -f "$sf" ]] || continue
             svc_name=$(basename "$sf" | sed "s/fleet_${key}_svc_//")
             svc_status=$(cat "$sf")
-            svc_icon="  🔴"
-            [[ "$svc_status" == "up" ]] && svc_icon="  ✅"
+            svc_icon="  [-]"
+            [[ "$svc_status" == "up" ]] && svc_icon="  [+]"
             echo "    $svc_icon $svc_name: $svc_status"
         done
     done
@@ -672,8 +672,8 @@ if [[ "${1:-}" == "status" ]]; then
         [[ -f "$f" ]] || continue
         key=$(basename "$f" | sed 's/local_svc_//')
         status=$(cat "$f")
-        icon="🔴"
-        [[ "$status" == "up" ]] && icon="✅"
+        icon="[-]"
+        [[ "$status" == "up" ]] && icon="[+]"
         echo "  $icon $key: $status"
     done
 
@@ -683,8 +683,8 @@ if [[ "${1:-}" == "status" ]]; then
         [[ -f "$f" ]] || continue
         key=$(basename "$f" | sed 's/web_//')
         status=$(cat "$f")
-        icon="🔴"
-        [[ "$status" == "up" ]] && icon="✅"
+        icon="[-]"
+        [[ "$status" == "up" ]] && icon="[+]"
         echo "  $icon $key: $status"
     done
 
@@ -694,8 +694,8 @@ if [[ "${1:-}" == "status" ]]; then
         [[ -f "$f" ]] || continue
         key=$(basename "$f" | sed 's/wg_//')
         status=$(cat "$f")
-        icon="🔴"
-        [[ "$status" == "up" ]] && icon="🔒"
+        icon="[-]"
+        [[ "$status" == "up" ]] && icon="[WG+]"
         echo "  $icon $key: $status"
     done
 
@@ -705,8 +705,8 @@ if [[ "${1:-}" == "status" ]]; then
         [[ -f "$f" ]] || continue
         key=$(basename "$f" | sed 's/droplet_//;s/_ping//')
         status=$(cat "$f")
-        icon="🔴"
-        [[ "$status" == "online" ]] && icon="☁️"
+        icon="[-]"
+        [[ "$status" == "online" ]] && icon="[CLOUD]"
         echo "  $icon $key: $status"
     done
 
@@ -737,10 +737,10 @@ fi
 
 # ─── Main Loop ────────────────────────────────────────────────
 log "INFO" "Starting monitoring loop (${POLL_INTERVAL}s interval)"
-report_to_observer "🪓 AXE Fleet Notify v${VERSION} started — monitoring all services"
-notify "🪓 AXE Fleet" "Fleet Notify v${VERSION} started — monitoring all services" "Glass" "daemon_start" "false"
+report_to_observer "[AXE] AXE Fleet Notify v${VERSION} started — monitoring all services"
+notify "[AXE] AXE Fleet" "Fleet Notify v${VERSION} started — monitoring all services" "Glass" "daemon_start" "false"
 
-trap 'log "INFO" "═══ AXE Fleet Notify stopping ═══"; report_to_observer "🪓 AXE Fleet Notify stopped"; notify "🪓 AXE Fleet" "Fleet Notify daemon stopped" "Basso" "daemon_stop" "false"; exit 0' SIGTERM SIGINT
+trap 'log "INFO" "═══ AXE Fleet Notify stopping ═══"; report_to_observer "[AXE] AXE Fleet Notify stopped"; notify "[AXE] AXE Fleet" "Fleet Notify daemon stopped" "Basso" "daemon_stop" "false"; exit 0' SIGTERM SIGINT
 
 while true; do
     check_daily_summary
