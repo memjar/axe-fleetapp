@@ -1,16 +1,6 @@
-// AXE Fleet Monitor — Polling Engine (iOS)
-// ObservableObject drives SwiftUI views. Polls daemon every 15s.
-// State change detection diffs previous vs current StatusResponse.
-// Fires local notifications on transitions.
-
 import Foundation
-import Combine
-import UserNotifications
 
-@MainActor
-final class FleetMonitor: ObservableObject {
-    // MARK: - Published State
-
+class FleetMonitor: ObservableObject {
     @Published private(set) var health: HealthResponse?
     @Published private(set) var status: StatusResponse?
     @Published private(set) var summary: FleetSummary = .empty
@@ -19,88 +9,81 @@ final class FleetMonitor: ObservableObject {
     @Published private(set) var lastUpdate: Date?
     @Published private(set) var recentChanges: [StateChange] = []
     @Published private(set) var aiSummary: SummaryResponse?
+    @Published var events: [FleetEvent] = []
+    @Published var isConnected = false
+    @Published var error: String?
+    @Published var newEventCount: Int = 0
 
-    // MARK: - Configuration
-
-    private let maxChangeHistory = 50
-    private let maxConsecutiveFailures = 3
-    private let summaryPollInterval: TimeInterval = 60
-
-    // MARK: - Internal State
-
-    private var pollTimer: Timer?
+    let apiClient = APIClient()
+    private var statusTimer: Timer?
+    private var eventTimer: Timer?
+    private var lastEventTimestamp: String?
+    private var seenEventIds: Set<String> = []
     private var previousStatus: StatusResponse?
     private var consecutiveFailures = 0
-    private var summaryPollCount = 0
-
-    // MARK: - Lifecycle
-
-    func startPolling() {
-        connectionState = .connecting
-        triggerPoll()
-
-        let interval = TimeInterval(UserDefaults.standard.integer(forKey: "poll_interval"))
-        let resolvedInterval = interval > 0 ? interval : 15
-
-        pollTimer = Timer.scheduledTimer(
-            withTimeInterval: resolvedInterval,
-            repeats: true
-        ) { [weak self] _ in
-            self?.triggerPoll()
+    private let maxConsecutiveFailures = 3
+    private let maxChangeHistory = 50
+    
+    // MARK: - Status Polling (30s)
+    
+    func startPolling(interval: TimeInterval = 30) {
+        stopPolling()
+        statusTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { [weak self] _ in
+            Task { await self?.fetchStatus() }
         }
+        Task { await fetchStatus() }
     }
-
+    
     func stopPolling() {
-        pollTimer?.invalidate()
-        pollTimer = nil
+        statusTimer?.invalidate()
+        statusTimer = nil
     }
-
-    func forceRefresh() {
-        triggerPoll()
+    
+    // MARK: - Event Polling (5s)
+    
+    func startEventPolling(interval: TimeInterval = 5) {
+        eventTimer?.invalidate()
+        eventTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { [weak self] _ in
+            Task { await self?.fetchNewEvents() }
+        }
+        Task { await fetchNewEvents() }
     }
-
-    // MARK: - Poll Dispatch
-
-    private func triggerPoll() {
-        Task { await executePoll() }
+    
+    func stopEventPolling() {
+        eventTimer?.invalidate()
+        eventTimer = nil
     }
+    
+    // MARK: - Fetch Status
 
-    private func executePoll() async {
+    @MainActor
+    func fetchStatus() async {
         do {
-            async let healthReq = APIClient.shared.fetchHealth()
-            async let statusReq = APIClient.shared.fetchStatus()
-            let (h, s) = try await (healthReq, statusReq)
+            let health = try await apiClient.fetchHealth()
+            let status = try await apiClient.fetchStatus()
 
-            await MainActor.run {
-                self.health = h
-                self.status = s
-                self.targets = s.allTargets()
-                self.summary = s.computeSummary()
-                self.lastUpdate = Date()
-                self.connectionState = .connected
-                self.consecutiveFailures = 0
+            self.health = health
+            self.status = status
+            self.targets = status.allTargets()
+            self.summary = status.computeSummary()
+            self.lastUpdate = Date()
+            self.connectionState = .connected
+            self.isConnected = true
+            self.error = nil
+            self.consecutiveFailures = 0
 
-                if let prev = self.previousStatus {
-                    self.detectChanges(from: prev, to: s)
-                }
-                self.previousStatus = s
-                self.summaryPollCount += 1
+            if let prev = self.previousStatus {
+                self.detectChanges(from: prev, to: status)
             }
-
-            // Fetch AI summary at slower cadence (every 4th poll)
-            if summaryPollCount % 4 == 1 {
-                if let s = try? await APIClient.shared.fetchSummary() {
-                    await MainActor.run { self.aiSummary = s }
-                }
-            }
+            self.previousStatus = status
         } catch {
-            await MainActor.run {
-                self.consecutiveFailures += 1
-                if self.consecutiveFailures >= self.maxConsecutiveFailures {
-                    self.connectionState = .disconnected
-                } else {
-                    self.connectionState = .error(error.localizedDescription)
-                }
+            self.error = error.localizedDescription
+            self.isConnected = false
+            self.consecutiveFailures += 1
+            if self.consecutiveFailures >= self.maxConsecutiveFailures {
+                self.connectionState = .disconnected
+            } else {
+                self.connectionState = .error(error.localizedDescription)
             }
         }
     }
@@ -125,53 +108,96 @@ final class FleetMonitor: ObservableObject {
                 timestamp: Date()
             )
             recentChanges.insert(change, at: 0)
-            sendLocalNotification(target: target.displayName, from: oldState, to: target.state)
 
-            // Haptic feedback on state changes
-            if target.state == .down {
-                Haptics.notification(.error)
-            } else if target.state == .up && oldState == .down {
-                Haptics.notification(.success)
-            } else {
-                Haptics.impact(.light)
-            }
+            NotificationService.shared.notifyStateChange(
+                target: target.displayName,
+                from: oldState,
+                to: target.state
+            )
         }
 
+        // Cap history
         if recentChanges.count > maxChangeHistory {
             recentChanges = Array(recentChanges.prefix(maxChangeHistory))
         }
     }
-
-    // MARK: - Local Notifications
-
-    private func sendLocalNotification(target: String, from: TargetState.State, to: TargetState.State) {
-        guard UserDefaults.standard.bool(forKey: "notifications_enabled") != false else { return }
-
-        let content = UNMutableNotificationContent()
-        content.threadIdentifier = "axe-fleet"
-
-        if to == .down {
-            content.title = "[AXE] \(target) went OFFLINE"
-            content.body = "State changed from \(from.rawValue.uppercased()) to OFFLINE"
-            content.categoryIdentifier = "AXE_CRITICAL"
-            content.sound = .default
-        } else if to == .up && from == .down {
-            content.title = "[AXE] \(target) RECOVERED"
-            content.body = "State changed from OFFLINE to ONLINE"
-            content.categoryIdentifier = "AXE_INFO"
-            content.sound = .default
-        } else {
-            return
+    
+    // MARK: - Fetch New Events
+    
+    @MainActor
+    func fetchNewEvents() async {
+        do {
+            let newEvents = try await apiClient.fetchEvents(since: lastEventTimestamp)
+            
+            for event in newEvents {
+                guard !seenEventIds.contains(event.id) else { continue }
+                seenEventIds.insert(event.id)
+                events.insert(event, at: 0)
+                newEventCount += 1
+                
+                // Fire notification + haptic based on severity
+                switch event.severity.lowercased() {
+                case "critical":
+                    sendNotification(for: event, critical: true)
+                    Haptics.notification(.error)
+                case "warning":
+                    sendNotification(for: event, critical: false)
+                    Haptics.notification(.warning)
+                default:
+                    Haptics.impact(.light)
+                }
+            }
+            
+            // Update cursor
+            if let latest = newEvents.first {
+                let formatter = ISO8601DateFormatter()
+                formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+                lastEventTimestamp = formatter.string(from: latest.timestamp)
+            }
+            
+            // Cap events at 200
+            if events.count > 200 {
+                events = Array(events.prefix(200))
+            }
+            if seenEventIds.count > 300 {
+                seenEventIds = Set(events.prefix(200).map { $0.id })
+            }
+        } catch {
+            // Silent — status polling handles connection display
         }
-
-        let request = UNNotificationRequest(
-            identifier: "state-\(target)-\(Date().timeIntervalSince1970)",
-            content: content,
-            trigger: nil
+    }
+    
+    // MARK: - Notifications
+    
+    private func sendNotification(for event: FleetEvent, critical: Bool) {
+        NotificationService.shared.sendNotification(
+            title: critical ? "🚨 Fleet Alert" : "⚠️ Fleet Warning",
+            body: event.message,
+            data: ["event_id": event.id, "severity": event.severity, "source": event.source]
         )
+    }
+    
+    // MARK: - Actions
+    
+    func refreshStatus() async {
+        await fetchStatus()
+        await fetchNewEvents()
+    }
+    
+    func clearEvents() {
+        events.removeAll()
+        seenEventIds.removeAll()
+        newEventCount = 0
+    }
+    
+    func resetNewEventCount() {
+        newEventCount = 0
+    }
 
+    func forceRefresh() {
         Task {
-            try? await UNUserNotificationCenter.current().add(request)
+            await fetchStatus()
+            await fetchNewEvents()
         }
     }
 }

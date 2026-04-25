@@ -1,49 +1,107 @@
-// AXE Fleet Monitor — API Client (iOS)
-// Actor-isolated network layer. Connects to axiom.com.vc cloud backend.
-// Default: https://axiom.com.vc/api/fleet
-
 import Foundation
 
-actor APIClient {
+enum APIError: Error, LocalizedError {
+    case invalidURL
+    case networkError(Error)
+    case invalidResponse
+    case decodingError(Error)
+    
+    var errorDescription: String? {
+        switch self {
+        case .invalidURL: return "Invalid URL"
+        case .networkError(let e): return "Network error: \(e.localizedDescription)"
+        case .invalidResponse: return "Invalid server response"
+        case .decodingError(let e): return "Data error: \(e.localizedDescription)"
+        }
+    }
+}
+
+class APIClient {
     static let shared = APIClient()
 
-    private var baseURL: String
-    private let session: URLSession
+    let baseURL: String
 
-    private init() {
-        self.baseURL = UserDefaults.standard.string(forKey: "server_url")
-            ?? "https://axiom.com.vc/api/fleet"
-
-        let config = URLSessionConfiguration.ephemeral
-        config.timeoutIntervalForRequest = 10
-        config.timeoutIntervalForResource = 20
-        config.waitsForConnectivity = false
-        self.session = URLSession(configuration: config)
+    init(baseURL: String? = nil) {
+        self.baseURL = baseURL ?? UserDefaults.standard.string(forKey: "api_base_url") ?? "https://axiom.com.vc"
     }
-
-    // MARK: - Reconfigure
-
-    func updateServer(url: String) {
-        self.baseURL = url
-        UserDefaults.standard.set(url, forKey: "server_url")
-    }
-
-    func getServerURL() -> String {
-        return baseURL
-    }
-
-    // MARK: - Endpoints
+    
+    // MARK: - Fleet Status
 
     func fetchHealth() async throws -> HealthResponse {
-        try await get("/health")
+        guard let url = URL(string: "\(baseURL)/api/fleet/health") else {
+            throw APIError.invalidURL
+        }
+
+        let (data, response) = try await URLSession.shared.data(from: url)
+
+        guard let http = response as? HTTPURLResponse, (200...299).contains(http.statusCode) else {
+            throw APIError.invalidResponse
+        }
+
+        let decoder = JSONDecoder()
+        return try decoder.decode(HealthResponse.self, from: data)
     }
 
     func fetchStatus() async throws -> StatusResponse {
-        try await get("/status")
+        guard let url = URL(string: "\(baseURL)/api/fleet/status") else {
+            throw APIError.invalidURL
+        }
+
+        let (data, response) = try await URLSession.shared.data(from: url)
+
+        guard let http = response as? HTTPURLResponse, (200...299).contains(http.statusCode) else {
+            throw APIError.invalidResponse
+        }
+
+        let decoder = JSONDecoder()
+        return try decoder.decode(StatusResponse.self, from: data)
     }
 
-    func fetchSummary() async throws -> SummaryResponse {
-        try await get("/summary")
+    func fetchFleetStatus() async throws -> FleetStatus {
+        try await fetchStatus()
+    }
+    
+    // MARK: - Fleet Events
+    
+    func fetchEvents(since: String? = nil, limit: Int = 100) async throws -> [FleetEvent] {
+        var components = URLComponents(string: "\(baseURL)/api/fleet/events")
+        var queryItems: [URLQueryItem] = []
+        
+        if let since = since {
+            queryItems.append(URLQueryItem(name: "since", value: since))
+        }
+        queryItems.append(URLQueryItem(name: "limit", value: String(limit)))
+        components?.queryItems = queryItems
+        
+        guard let url = components?.url else {
+            throw APIError.invalidURL
+        }
+        
+        let (data, response) = try await URLSession.shared.data(from: url)
+        
+        guard let http = response as? HTTPURLResponse, (200...299).contains(http.statusCode) else {
+            throw APIError.invalidResponse
+        }
+        
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        decoder.dateDecodingStrategy = .iso8601
+        
+        struct EventsResponse: Codable {
+            let events: [FleetEvent]
+            let total: Int
+            let filtered: Int
+            let timestamp: Date
+        }
+        
+        let result = try decoder.decode(EventsResponse.self, from: data)
+        return result.events
+    }
+
+    // MARK: - Configuration
+
+    func updateServer(url: String) async {
+        UserDefaults.standard.set(url, forKey: "api_base_url")
     }
 
     func isDaemonReachable() async -> Bool {
@@ -52,47 +110,6 @@ actor APIClient {
             return true
         } catch {
             return false
-        }
-    }
-
-    // MARK: - Generic GET
-
-    private func get<T: Decodable>(_ path: String) async throws -> T {
-        guard let url = URL(string: "\(baseURL)\(path)") else {
-            throw APIError.invalidURL
-        }
-
-        let (data, response) = try await session.data(from: url)
-
-        guard let http = response as? HTTPURLResponse else {
-            throw APIError.invalidResponse
-        }
-        guard (200...299).contains(http.statusCode) else {
-            throw APIError.httpError(http.statusCode)
-        }
-
-        do {
-            return try JSONDecoder().decode(T.self, from: data)
-        } catch {
-            throw APIError.decodingFailed(error)
-        }
-    }
-
-    // MARK: - Errors
-
-    enum APIError: LocalizedError {
-        case invalidURL
-        case invalidResponse
-        case httpError(Int)
-        case decodingFailed(Error)
-
-        var errorDescription: String? {
-            switch self {
-            case .invalidURL: return "Invalid server URL"
-            case .invalidResponse: return "Invalid response from server"
-            case .httpError(let code): return "HTTP \(code)"
-            case .decodingFailed(let err): return "Decode error: \(err.localizedDescription)"
-            }
         }
     }
 }

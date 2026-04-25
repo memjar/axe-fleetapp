@@ -12,22 +12,24 @@
 		26B00641E5CB7B6566E59A9B /* EventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F988A051A6C63CF87340B8DE /* EventsView.swift */; };
 		4704D9D91F2422085F08726F /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 662A14E53E0A14D393683DC2 /* DashboardView.swift */; };
 		4D05EC95FC27F70DEEFD0B04 /* AIInsightsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D16C7E68CCCF9D765B06C78A /* AIInsightsView.swift */; };
+		5B1356632F5CA197CCEEEB73 /* EventToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B99EED42CEA83E6005EA61B /* EventToast.swift */; };
+		67710AA87C989736CB8A65A6 /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F1FB77EC0A777A13DB7B011 /* Haptics.swift */; };
 		747F9180BC98B41BB02E04C4 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A377AAEE635D7C0D8A9A85F2 /* APIClient.swift */; };
 		8786A690740FDDBD9E634E28 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5015DFFA986A747B0B2D568 /* SettingsView.swift */; };
 		888BC67FA7CE5ED2F2CAD321 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCD3D589E6005C8219692478 /* Assets.xcassets */; };
 		8992C6A1406D8DB3BB1CABE6 /* FleetMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF748FA18E2D4644F71F63A /* FleetMonitor.swift */; };
 		9DA987B1E59BAB7D4A1957C7 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A9C13D5A712618BE0A31B9 /* NotificationService.swift */; };
 		A955C2548115EE34FBA24CB1 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C3A728F4F6308431431FA79 /* Theme.swift */; };
-		BA27353E436945619E87C145 /* Haptics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95D4F76DCDC24A7DB2590DC0 /* Haptics.swift */; };
 		BA786876015CA1F19F80BCF7 /* AXEFleetApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBD12D4F4F9E7C6865B297A2 /* AXEFleetApp.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		002036C405CF372411F6AF5C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1DE42708642374521D38BB1D /* Models.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		3B99EED42CEA83E6005EA61B /* EventToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventToast.swift; sourceTree = "<group>"; };
+		3F1FB77EC0A777A13DB7B011 /* Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptics.swift; sourceTree = "<group>"; };
 		48FE887C0563B171DC941C47 /* AXEFleet.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = AXEFleet.entitlements; sourceTree = "<group>"; };
 		5C3A728F4F6308431431FA79 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
-		95D4F76DCDC24A7DB2590DC0 /* Haptics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Haptics.swift; sourceTree = "<group>"; };
 		662A14E53E0A14D393683DC2 /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
 		81D1F38096ADC7A97821724E /* AXEFleet.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = AXEFleet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9AF748FA18E2D4644F71F63A /* FleetMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FleetMonitor.swift; sourceTree = "<group>"; };
@@ -83,10 +85,10 @@
 			children = (
 				A377AAEE635D7C0D8A9A85F2 /* APIClient.swift */,
 				9AF748FA18E2D4644F71F63A /* FleetMonitor.swift */,
+				3F1FB77EC0A777A13DB7B011 /* Haptics.swift */,
 				1DE42708642374521D38BB1D /* Models.swift */,
 				E5A9C13D5A712618BE0A31B9 /* NotificationService.swift */,
 				5C3A728F4F6308431431FA79 /* Theme.swift */,
-				95D4F76DCDC24A7DB2590DC0 /* Haptics.swift */,
 			);
 			path = Shared;
 			sourceTree = "<group>";
@@ -115,6 +117,7 @@
 				002036C405CF372411F6AF5C /* ContentView.swift */,
 				662A14E53E0A14D393683DC2 /* DashboardView.swift */,
 				F988A051A6C63CF87340B8DE /* EventsView.swift */,
+				3B99EED42CEA83E6005EA61B /* EventToast.swift */,
 				F5015DFFA986A747B0B2D568 /* SettingsView.swift */,
 			);
 			path = Views;
@@ -196,13 +199,14 @@
 				BA786876015CA1F19F80BCF7 /* AXEFleetApp.swift in Sources */,
 				17C2ACA039ABBACE9F951708 /* ContentView.swift in Sources */,
 				4704D9D91F2422085F08726F /* DashboardView.swift in Sources */,
+				5B1356632F5CA197CCEEEB73 /* EventToast.swift in Sources */,
 				26B00641E5CB7B6566E59A9B /* EventsView.swift in Sources */,
 				8992C6A1406D8DB3BB1CABE6 /* FleetMonitor.swift in Sources */,
+				67710AA87C989736CB8A65A6 /* Haptics.swift in Sources */,
 				1AB3F3A573CA78B3207CBE08 /* Models.swift in Sources */,
 				9DA987B1E59BAB7D4A1957C7 /* NotificationService.swift in Sources */,
 				8786A690740FDDBD9E634E28 /* SettingsView.swift in Sources */,
 				A955C2548115EE34FBA24CB1 /* Theme.swift in Sources */,
-				BA27353E436945619E87C145 /* Haptics.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -246,7 +250,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 237Q6KHJY6;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -313,7 +317,7 @@
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 237Q6KHJY6;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;

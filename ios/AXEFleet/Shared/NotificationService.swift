@@ -54,4 +54,39 @@ final class NotificationService {
     func setBadge(_ count: Int) async {
         try? await UNUserNotificationCenter.current().setBadgeCount(count)
     }
+
+    // MARK: - Convenience Methods
+
+    func sendNotification(title: String, body: String, data: [String: String] = [:]) {
+        Task {
+            await send(title: title, body: body)
+        }
+    }
+
+    func notifyStateChange(target: String, from: TargetState.State, to: TargetState.State) {
+        let title: String
+        let category: String
+        let sound: UNNotificationSound
+
+        switch (from, to) {
+        case (_, .down):
+            title = "🔴 \(target) DOWN"
+            category = "AXE_CRITICAL"
+            sound = .defaultCritical
+        case (.down, .up):
+            title = "✅ \(target) RECOVERED"
+            category = "AXE_INFO"
+            sound = .default
+        default:
+            title = "⚠️ \(target) state changed"
+            category = "AXE_WARNING"
+            sound = .default
+        }
+
+        let body = "Transition: \(from) → \(to)"
+
+        Task {
+            await send(title: title, body: body, category: category, sound: sound)
+        }
+    }
 }

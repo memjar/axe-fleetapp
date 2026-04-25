@@ -46,100 +46,116 @@ struct WebCount: Codable, Sendable {
 
 // MARK: - Status Endpoint (/status)
 
-struct StatusResponse: Codable, Sendable {
+struct StatusResponse: Codable, Sendable, Equatable {
     let fleet: [String: String]
     let web: [String: String]
     let wireguard: [String: String]
     let droplets: [String: String]
 
+    var isEmpty: Bool {
+        fleet.isEmpty && web.isEmpty && wireguard.isEmpty && droplets.isEmpty
+    }
+
     func allTargets() -> [TargetState] {
-        var result: [TargetState] = []
+        var targets: [TargetState] = []
 
-        for (key, value) in fleet {
-            let name = key
-                .replacingOccurrences(of: "fleet_", with: "")
-                .replacingOccurrences(of: "_ping", with: "")
-                .replacingOccurrences(of: "_ssh", with: " SSH")
-                .replacingOccurrences(of: "_", with: " ")
-                .capitalized
-            result.append(TargetState(id: key, category: .fleet, displayName: name, state: TargetState.parseState(value), rawValue: value))
+        for (key, value) in fleet.sorted(by: { $0.key < $1.key }) {
+            targets.append(TargetState(
+                id: key, category: .fleet,
+                displayName: Self.cleanName(key, prefix: "fleet_"),
+                state: .init(raw: value), rawValue: value
+            ))
+        }
+        for (key, value) in web.sorted(by: { $0.key < $1.key }) {
+            targets.append(TargetState(
+                id: key, category: .web,
+                displayName: Self.cleanName(key, prefix: "web_"),
+                state: .init(raw: value), rawValue: value
+            ))
+        }
+        for (key, value) in wireguard.sorted(by: { $0.key < $1.key }) {
+            targets.append(TargetState(
+                id: key, category: .wireguard,
+                displayName: Self.cleanName(key, prefix: "wg_"),
+                state: .init(raw: value), rawValue: value
+            ))
+        }
+        for (key, value) in droplets.sorted(by: { $0.key < $1.key }) {
+            targets.append(TargetState(
+                id: key, category: .droplets,
+                displayName: Self.cleanName(key, prefix: "droplet_"),
+                state: .init(raw: value), rawValue: value
+            ))
         }
 
-        for (key, value) in web {
-            let name = key
-                .replacingOccurrences(of: "web_", with: "")
-                .replacingOccurrences(of: "_", with: " ")
-                .capitalized
-            result.append(TargetState(id: key, category: .web, displayName: name, state: TargetState.parseState(value), rawValue: value))
-        }
+        return targets
+    }
 
-        for (key, value) in wireguard {
-            let name = key
-                .replacingOccurrences(of: "wg_", with: "")
-                .replacingOccurrences(of: "_", with: " ")
-                .capitalized
-            result.append(TargetState(id: key, category: .wireguard, displayName: name, state: TargetState.parseState(value), rawValue: value))
+    private static func cleanName(_ key: String, prefix: String) -> String {
+        var name = key
+        if name.hasPrefix(prefix) {
+            name = String(name.dropFirst(prefix.count))
         }
-
-        for (key, value) in droplets {
-            let name = key
-                .replacingOccurrences(of: "droplet_", with: "")
-                .replacingOccurrences(of: "_", with: " ")
-                .capitalized
-            result.append(TargetState(id: key, category: .droplets, displayName: name, state: TargetState.parseState(value), rawValue: value))
-        }
-
-        return result.sorted { $0.displayName < $1.displayName }
+        return name
+            .replacingOccurrences(of: "_", with: " ")
+            .split(separator: " ")
+            .map { $0.prefix(1).uppercased() + $0.dropFirst() }
+            .joined(separator: " ")
     }
 
     func computeSummary() -> FleetSummary {
         let targets = allTargets()
+
         let fleetTargets = targets.filter { $0.category == .fleet }
         let webTargets = targets.filter { $0.category == .web }
-        let serviceTargets = targets.filter { $0.category != .fleet && $0.category != .web }
+        let otherTargets = targets.filter { $0.category == .wireguard || $0.category == .droplets }
+
+        let machinesOnline = fleetTargets.filter { $0.state == .up }.count
+        let machinesOffline = fleetTargets.filter { $0.state == .down }.count
+        let webUp = webTargets.filter { $0.state == .up }.count
+        let webDown = webTargets.filter { $0.state == .down }.count
+        let svcUp = otherTargets.filter { $0.state == .up }.count
+        let svcDown = otherTargets.filter { $0.state == .down }.count
 
         return FleetSummary(
-            machinesOnline: fleetTargets.filter { $0.state == .up }.count,
-            machinesOffline: fleetTargets.filter { $0.state == .down }.count,
-            servicesUp: serviceTargets.filter { $0.state == .up }.count,
-            servicesDown: serviceTargets.filter { $0.state == .down }.count,
-            webUp: webTargets.filter { $0.state == .up }.count,
-            webDown: webTargets.filter { $0.state == .down }.count,
+            machinesOnline: machinesOnline, machinesOffline: machinesOffline,
+            servicesUp: svcUp, servicesDown: svcDown,
+            webUp: webUp, webDown: webDown,
             totalTargets: targets.count,
-            totalHealthy: targets.filter { $0.state == .up }.count
+            totalHealthy: machinesOnline + webUp + svcUp
         )
     }
 }
 
 // MARK: - Parsed Target State
 
-struct TargetState: Identifiable, Sendable {
+struct TargetState: Identifiable, Sendable, Equatable {
     let id: String
     let category: TargetCategory
     let displayName: String
     let state: State
     let rawValue: String
 
-    enum State: String, Sendable {
+    enum State: Equatable, Sendable {
         case up, down, unknown
+
+        init(raw: String) {
+            switch raw.lowercased() {
+            case "online", "up": self = .up
+            case "offline", "down": self = .down
+            default: self = .unknown
+            }
+        }
     }
 
     enum TargetCategory: String, Sendable, CaseIterable {
         case fleet, web, wireguard, droplets
     }
-
-    static func parseState(_ raw: String) -> State {
-        switch raw.lowercased() {
-        case "up", "online", "healthy", "running": return .up
-        case "down", "offline", "unhealthy", "stopped", "unreachable": return .down
-        default: return .unknown
-        }
-    }
 }
 
 // MARK: - Fleet Summary
 
-struct FleetSummary: Sendable {
+struct FleetSummary: Sendable, Equatable {
     let machinesOnline: Int
     let machinesOffline: Int
     let servicesUp: Int
@@ -151,7 +167,7 @@ struct FleetSummary: Sendable {
 
     var healthPercent: Int {
         guard totalTargets > 0 else { return 0 }
-        return Int(Double(totalHealthy) / Double(totalTargets) * 100)
+        return Int((Double(totalHealthy) / Double(totalTargets)) * 100)
     }
 
     static let empty = FleetSummary(
@@ -179,13 +195,18 @@ enum ConnectionState: Sendable, Equatable {
     case connected
     case disconnected
     case error(String)
+
+    var isConnected: Bool {
+        if case .connected = self { return true }
+        return false
+    }
 }
 
 // MARK: - AI Summary (/summary)
 
 struct SummaryResponse: Codable, Sendable {
     let fleetSummary: String
-    let lastGenerated: Int?
+    let lastGenerated: String?
     let incidents: [IncidentEntry]
     let modelAvailable: Bool
     let timestamp: String
@@ -206,4 +227,24 @@ struct IncidentEntry: Codable, Sendable, Identifiable {
     let timestamp: String
 
     var id: String { "\(target)-\(timestamp)" }
+}
+
+// MARK: - FleetStatus and FleetEvent (for compatibility)
+
+typealias FleetStatus = StatusResponse
+struct FleetEvent: Identifiable, Codable, Sendable {
+    let id: String
+    let message: String
+    let severity: String
+    let source: String
+    let timestamp: Date
+
+    var icon: String {
+        switch severity.lowercased() {
+        case "critical": return "exclamationmark.triangle.fill"
+        case "warning": return "exclamationmark.circle.fill"
+        case "info": return "info.circle.fill"
+        default: return "circle.fill"
+        }
+    }
 }
